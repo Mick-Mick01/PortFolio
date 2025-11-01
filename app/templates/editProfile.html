@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile | Dev Crish Kha</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png') }}" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: radial-gradient(circle at 20% 20%, #1d3557 0%, #0b1a33 80%);
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
+
+    header button {
+      background: #457b9d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    header button:hover {
+      background: #1d3557;
+    }
+
+    .profile-wrapper {
+      max-width: 800px;
+      margin: 2rem auto;
+      background: white;
+      border: 1px solid #1d3557;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+    }
+
+    .profile-section {
+      border-bottom: 1px solid #ddd;
+      padding: 1.5rem 0;
+    }
+
+    .profile-section:last-child {
+      border-bottom: none;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-header h3 {
+      color: #1d3557;
+      margin: 0;
+    }
+
+    .edit-btn {
+      background: #457b9d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .edit-btn:hover {
+      background: #1d3557;
+    }
+
+    .edit-form {
+      display: none;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f4f7fb;
+      border-radius: 8px;
+    }
+
+    label {
+      display: block;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      color: #1d3557;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 4px;
+      font-size: 1rem;
+    }
+
+    .action-buttons {
+      margin-top: 1rem;
+      display: flex;
+      gap: 10px;
+    }
+
+    .save-btn {
+      background: #457b9d;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .save-btn:hover {
+      background: #1d3557;
+    }
+
+    .cancel-btn {
+      background: #ccc;
+      color: #333;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .cancel-btn:hover {
+      background: #bbb;
+    }
+
+    .profile-photo {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.profile-photo img {
+  width: 160px;             /* slightly larger for a portrait look */
+  height: 200px;            /* taller than wide — portrait aspect */
+  border-radius: 12px;      /* gentle rounding instead of circular */
+  border: 3px solid #ffb703;
+  object-fit: cover;        /* ensures the image fills the frame nicely */
+  box-shadow: 0 0 12px rgba(255, 183, 3, 0.4);
+}
+
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1><i class="fas fa-user-cog"></i> Edit Profile</h1>
+    <button onclick="window.location.href='/memberDashboard/{{member.memberCode}}'">Back to Dashboard</button>
+  </header>
+
+  <div class="profile-wrapper">
+
+    <!-- Name -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h3>Name</h3>
+        <button class="edit-btn" onclick="toggleForm('nameForm')">Edit Name</button>
+      </div>
+      <p>Current Name: <strong>{{member.memberName}}</strong></p>
+
+      <form id="nameForm" class="edit-form" method="POST" action="/updateName/{{member.memberCode}}">
+        <label for="newName">New Name</label>
+        <input type="text" id="newName" name="memberName" placeholder="Enter new name" required>
+
+        <label for="namePassword">Password</label>
+        <input type="password" id="namePassword" name="password" placeholder="Enter password" required>
+
+        <div class="action-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="toggleForm('nameForm')">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Photo -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h3>Profile Photo</h3>
+        <button class="edit-btn" onclick="toggleForm('photoForm')">Edit Profile Picture</button>
+      </div>
+      <div class="profile-photo">
+        <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName ) }}" alt="Profile Photo">
+      </div>
+
+      <form id="photoForm" class="edit-form" method="POST" action="/updatePhoto/{{member.memberCode}}" enctype="multipart/form-data">
+        <label for="photoUpload">Upload New Photo</label>
+        <input type="file" id="photoUpload" name="photo" accept="image/*" required>
+
+        <label for="photoPassword">Password</label>
+        <input type="password" id="photoPassword" name="password" placeholder="Enter password" required>
+
+        <div class="action-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="toggleForm('photoForm')">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Password -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h3>Password</h3>
+        <button class="edit-btn" onclick="toggleForm('passwordForm')">Change Password</button>
+      </div>
+      <p>Change your account password.</p>
+
+      <form id="passwordForm" class="edit-form" method="POST" action="/updatePassword/{{member.memberCode}}">
+        <label for="newPass">New Password</label>
+        <input type="text" id="newPass" name="newPassword" placeholder="Enter new password" required>
+
+        <label for="oldPass">Current Password</label>
+        <input type="password" id="oldPass" name="password" placeholder="Enter current password" required>
+
+        <div class="action-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="toggleForm('passwordForm')">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- College Code -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h3>College Code</h3>
+        <button class="edit-btn" onclick="toggleForm('collegeForm')">Edit College Code</button>
+      </div>
+      <p>Current Code: <strong>{{member.collegeCode}}</strong></p>
+
+      <form id="collegeForm" class="edit-form" method="POST" action="/updateCollegeCode/{{member.memberCode}}">
+        <label for="newCollege">New College Code</label>
+        <input type="text" id="newCollege" name="collegeCode" placeholder="Enter new college code" required>
+
+        <label for="collegePassword">Password</label>
+        <input type="password" id="collegePassword" name="password" placeholder="Enter password" required>
+
+        <div class="action-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="toggleForm('collegeForm')">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Course & Roll -->
+    <div class="profile-section">
+      <div class="section-header">
+        <h3>Course & Roll</h3>
+        <button class="edit-btn" onclick="toggleForm('courseForm')">Edit Course-Roll</button>
+      </div>
+      <p>Current: <strong>{{member.course_Roll}}</strong></p>
+
+      <form id="courseForm" class="edit-form" method="POST" action="/updateCourseRoll/{{member.memberCode}}">
+        <label for="newCourse">New Course & Roll</label>
+        <input type="text" id="newCourse" name="courseRoll" placeholder="Enter new course & roll" required>
+
+        <label for="coursePassword">Password</label>
+        <input type="password" id="coursePassword" name="password" placeholder="Enter password" required>
+
+        <div class="action-buttons">
+          <button type="submit" class="save-btn">Save</button>
+          <button type="button" class="cancel-btn" onclick="toggleForm('courseForm')">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2025 {{ member.memberName }} | Edit Profile | Styled by GPT
+  </footer>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <script>
+    function toggleForm(id) {
+      const form = document.getElementById(id);
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>

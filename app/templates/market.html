@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>| {{ marketName }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans', sans-serif;
+      background-color: #f4f7fa;
+      color: #2a2a2a;
+    }
+    header {
+      background-color: #002366;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .org-logo {
+      display: flex;
+      align-items: center;
+    }
+    .org-logo img {
+      height: 48px;
+      margin-right: 12px;
+    }
+    .org-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .market-details {
+      text-align: center;
+      background: #ffffff;
+      padding: 1.5rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .market-name {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #003366;
+    }
+    .market-location {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    .category-section {
+      padding: 2rem;
+      border-top: 2px solid #dcdcdc;
+    }
+    .category-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #002366;
+      border-bottom: 1px solid #bbb;
+      padding-bottom: 0.5rem;
+    }
+    .shop-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .shop-card {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+    .shop-card:hover {
+      transform: translateY(-5px);
+    }
+    .shop-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
+    .shop-info {
+      padding: 1rem;
+    }
+    .shop-info h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #002366;
+    }
+    .shop-info p {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      color: #444;
+    }
+    footer {
+      background: #002366;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 600px) {
+      .shop-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(170px, 1fr));
+        gap: 10px;
+      }
+      .category-section {
+        padding: 1rem;
+        border-top: 2px solid #dcdcdc;
+      }
+      .market-details {
+        text-align: center;
+        background: #ffffff;
+        padding: .4rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="org-logo">
+      <img src="{{ url_for('static', filename='images/logo_1.png' ) }}" alt="Logo" style="border-radius: 50%;" />
+      <div class="org-title">Gigamart<br/>{{ marketName }} | Realtime</div>
+    </div>
+  </header>
+
+  <div class="market-details">
+    <div class="market-name">{{ marketName }}</div>
+    <div class="market-location">{{ info.location }}</div>
+  </div>
+
+  {% for category in categories %}
+  {% if category != "info" %}
+  <div class="category-section">
+    <div class="category-title">{{ category }}</div>
+    <div class="shop-list">
+
+      
+      {% set shops = shops_by_category[loop.index0] %}
+      {% for shop in shops %}
+        {% include 'partials/shop_card.html' %}
+      {% endfor %}
+
+      
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}
+
+  <footer>
+    &copy; 2025 Gigamart | VikshitBharat Initiative
+  </footer>
+</body>
+</html>

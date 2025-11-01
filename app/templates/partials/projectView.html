@@ -1,0 +1,1572 @@
+
+<style>
+  
+    .blurred {
+      filter: blur(8px);
+      overflow: hidden; /* optional: prevent background scroll */
+    }
+
+    /* Portfolio Styles (your existing code) */
+  .portfolio-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    overflow: hidden;
+    margin: 30px auto; /* add spacing below banner */
+  }
+
+  .portfolio-container {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .portfolio-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-card {
+    min-width: 250px;
+    max-width: 250px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+    .project-card {
+      flex: 1 1 250px; /* makes them responsive, min width 250px */
+      max-width: 300px;
+    }
+    
+  .project-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .project-video {
+    width: 100%;
+    border-radius: 8px;
+    margin: 8px 0;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 10px;
+    white-space: pre-wrap;   /* ✅ keeps line breaks but allows wrapping */
+    word-wrap: break-word;   /* ✅ avoids long words pushing outside */
+  }
+
+  .project-link {
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+  }
+
+  .project-link:hover {
+    background: #0056b3;
+  }
+
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+  }
+
+  .scroll-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .scroll-left {
+    left: 10px;
+  }
+
+  .scroll-right {
+    right: 10px;
+  }
+
+  .blur-background{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url('https://picsum.photos/800/600') no-repeat center center;
+    background-size: cover;
+    /* Blur the whole background */
+    filter: blur(8px);
+  }
+
+  .Expand-card{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white; /* solid color: no transparency */
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  max-height: 80vh;
+  width: 60%;
+  overflow-y: auto; /* scroll inside card */
+  z-index: 1; /* ensure it stays above the blur */
+  }
+
+  @media (max-width: 480px) {
+  }
+</style>
+
+<style>
+  /*
+========================|| EXPAND-VIEW1 STARTS || =====================================
+*/
+.Expand-View1 {
+  max-width: 750px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Roboto, sans-serif;
+  color: #222;
+  line-height: 1.75;
+}
+
+/* Headings */
+.Expand-View1 h1, 
+.Expand-View1 h2, 
+.Expand-View1 h3 {
+  color: #111;
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.Expand-View1 h1 {
+  font-size: 2.2em;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 0.3em;
+}
+
+.Expand-View1 h2 {
+  font-size: 1.8em;
+  color: #333;
+}
+
+/* Paragraphs */
+.Expand-View1 p {
+  margin-bottom: 1.2em;
+  font-size: 1.05em;
+}
+
+/* Links */
+.Expand-View1 a {
+  color: #0077cc;
+  text-decoration: none;
+  border-bottom: 1px dotted #0077cc;
+  transition: color 0.2s ease;
+}
+
+.Expand-View1 a:hover {
+  color: #005fa3;
+  border-bottom-color: #005fa3;
+}
+
+/* Images */
+.Expand-View1 img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 20px auto;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Videos */
+.Expand-View1 video {
+  display: block;
+  max-width: 100%;
+  border-radius: 10px;
+  margin: 20px auto;
+}
+
+/* Lists */
+.Expand-View1 ul, .Expand-View1 ol {
+  margin: 1em 0;
+  padding-left: 2em;
+}
+
+.Expand-View1 li {
+  margin: 0.5em 0;
+}
+
+/* Blockquotes */
+.Expand-View1 blockquote {
+  border-left: 4px solid #0077cc;
+  padding-left: 1em;
+  color: #555;
+  font-style: italic;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Code blocks */
+.Expand-View1 pre, .Expand-View1 code {
+  font-family: "Fira Code", monospace;
+  background: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.Expand-View1 pre {
+  overflow-x: auto;
+  padding: 12px;
+}
+/* Buttons */
+
+/* Buttons */
+.Expand-View1 button {
+  background: #0077cc;
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.1s ease;
+  font-family: inherit;
+  display: inline-block;
+  margin: 10px 5px;
+}
+
+.Expand-View1 button:hover {
+  background: #005fa3;
+  transform: translateY(-2px);
+}
+
+.Expand-View1 button:active {
+  background: #004c85;
+  transform: translateY(0);
+}
+
+.Expand-View1 button:disabled {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Optional: outlined and subtle variants */
+.Expand-View1 .btn-outline {
+  background: transparent;
+  border: 2px solid #0077cc;
+  color: #0077cc;
+}
+
+.Expand-View1 .btn-outline:hover {
+  background: #0077cc;
+  color: #fff;
+}
+
+.Expand-View1 .btn-subtle {
+  background: #f2f2f2;
+  color: #333;
+}
+
+.Expand-View1 .btn-subtle:hover {
+  background: #e6e6e6;
+}
+/*
+========================|| EXPAND-VIEW1 ENDS || =====================================
+*/
+
+/*
+=======================|| EXPAND-VIEW2 START ||=======================================
+*/
+/* --- Main Blog Container (Dark Mode) --- */
+.Expand-View2 {
+  /* Sizing and Centering */
+  max-width: 850px; /* A slightly wider view */
+  margin: 2.5rem auto; /* Centers the container */
+  
+  /* Appearance */
+  background-color: #1e1e1e; /* Dark background for the container */
+  padding: 2.5rem 3rem; /* A bit more padding */
+  border-radius: 8px; /* Slightly sharper corners */
+  border: 1px solid #333; /* Subtle border */
+
+  /* Base Typography */
+  color: #e0e0e0; /* Light gray text for readability */
+  font-family: "Roboto", "Segoe UI", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+  font-size: 1.05rem; /* Standard font size */
+  line-height: 1.8; /* Extra line spacing for dark mode */
+}
+
+/* --- Headings (h1, h2, h3) --- */
+/* Using a clean, bold sans-serif for a modern feel */
+.Expand-View2 h1,
+.Expand-View2 h2,
+.Expand-View2 h3 {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1.2rem;
+  color: #ffffff; /* Pure white for high contrast */
+}
+
+/* Make the main title (h1) larger and bolder */
+.Expand-View2 h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  border-bottom: 2px solid #00aaff; /* An accent underline */
+  padding-bottom: 0.5rem;
+}
+
+/* Make the first h1 (likely the title) have no top margin */
+.Expand-View2 h1:first-child {
+  margin-top: 0;
+}
+
+.Expand-View2 h2 {
+  font-size: 2.1rem;
+}
+
+.Expand-View2 h3 {
+  font-size: 1.6rem;
+  color: #f0f0f0;
+}
+
+/* --- Paragraphs --- */
+.Expand-View2 p {
+  margin-bottom: 1.5rem; /* Space between paragraphs */
+}
+
+/* --- Responsive Media (Images & Videos) --- */
+/* Give media a subtle border to separate from the dark bg */
+.Expand-View2 img,
+.Expand-View2 video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 2rem 0; /* Generous space around media */
+  border: 1px solid #444; /* Light border */
+}
+
+/* --- Links --- */
+.Expand-View2 a {
+  color: #4ab1ff; /* A bright, accessible blue */
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.Expand-View2 a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View2 ul,
+.Expand-View2 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.Expand-View2 li {
+  margin-bottom: 0.6rem; /* Space between list items */
+}
+
+/* --- Blockquotes --- */
+/* Styles for pull quotes or citations */
+.Expand-View2 blockquote {
+  font-style: italic;
+  color: #f0f0f0;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-left: 5px solid #4ab1ff; /* Matches the link accent color */
+  background-color: #2a2a2a; /* Slightly lighter background */
+  border-radius: 0 8px 8px 0; /* Rounded on one side */
+}
+
+.Expand-View2 blockquote p {
+  margin-bottom: 0; /* Remove extra paragraph margin inside quote */
+}
+/*
+=======================|| EXPAND-VIEW2 ENDS ||=======================================
+*/
+
+
+/*
+=======================|| EXPAND-VIEW3 STARTS ||=======================================
+*/
+/* --- Main Blog Container (Minimalist) --- */
+.Expand-View3 {
+  /* Sizing and Centering */
+  max-width: 760px; /* A nice "book" width */
+  margin: 3rem auto; /* Centers the container */
+  
+  /* Appearance */
+  background-color: #ffffff; /* Crisp white paper */
+  padding: 2.5rem 3rem; /* Generous padding */
+  border: 1px solid #e0e0e0; /* A simple, thin border */
+  border-radius: 6px;
+
+  /* Base Typography */
+  color: #222222; /* Very dark gray text */
+  /* Using a Serif font for the main body text gives it a classic feel */
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.15rem; /* Slightly larger text for readability */
+  line-height: 1.8; /* Very generous line spacing */
+}
+
+/* --- Headings (h1, h2, h3) --- */
+/* Using a Sans-serif font for headings creates a nice contrast */
+.Expand-View3 h1,
+.Expand-View3 h2,
+.Expand-View3 h3 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1.1rem;
+  color: #334e68; /* A deep, desaturated blue */
+}
+
+/* Make the main title (h1) larger */
+.Expand-View3 h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  border-bottom: 2px solid #e0e0e0; /* Subtle line separator */
+  padding-bottom: 0.75rem;
+}
+
+/* Make the first h1 (likely the title) have no top margin */
+.Expand-View3 h1:first-child {
+  margin-top: 0;
+}
+
+.Expand-View3 h2 {
+  font-size: 2.1rem;
+}
+
+.Expand-View3 h3 {
+  font-size: 1.6rem;
+}
+
+/* --- Paragraphs --- */
+.Expand-View3 p {
+  margin-bottom: 1.5rem; /* Space between paragraphs */
+}
+
+/* --- Responsive Media (Images & Videos) --- */
+/* THIS IS THE KEY SECTION FOR "SAME SIZE" 
+  We force all media into a 16:9 aspect ratio.
+*/
+.Expand-View3 img,
+.Expand-View3 video {
+  width: 100%; /* Make all media span the full width of the container */
+  aspect-ratio: 16 / 9; /* FORCES a 16:9 widescreen shape */
+  object-fit: cover; /* This is the magic: it fills the box, cropping if needed, without stretching */
+  
+  height: auto; /* Not strictly needed with aspect-ratio, but good practice */
+  border-radius: 8px; /* Soft rounded corners */
+  margin: 2rem 0; /* Adds space above and below media */
+  background-color: #f0f0f0; /* A light placeholder color while media loads */
+}
+
+/* --- Links --- */
+.Expand-View3 a {
+  color: #334e68; /* Use the heading color for links */
+  text-decoration: underline;
+  text-decoration-color: #a7c0d8; /* A lighter underline */
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.Expand-View3 a:hover {
+  text-decoration-color: #334e68; /* Darken underline on hover */
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View3 ul,
+.Expand-View3 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.75rem; /* A little more indent for serif */
+}
+
+.Expand-View3 li {
+  margin-bottom: 0.5rem; /* Space between list items */
+}
+
+/* --- Blockquotes --- */
+/* A very minimal, centered quote style */
+.Expand-View3 blockquote {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-style: normal;
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #334e68;
+  margin: 2.5rem 1rem;
+  padding: 1rem 0;
+  border: none;
+  border-top: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e0e0e0;
+  background-color: transparent;
+}
+/*
+=======================|| EXPAND-VIEW3 ENDS ||=======================================
+*/
+
+/*
+=======================|| EXPAND-VIEW4 STARTS ||=======================================
+*/
+/* --- Main Blog Container (Vibrant) --- */
+.Expand-View4 {
+  /* Sizing and Centering */
+  max-width: 800px; /* A standard, comfortable width */
+  margin: 3rem auto; /* Centers the container */
+  
+  /* Appearance */
+  background-color: #ffffff;
+  padding: 2.5rem 3rem;
+  border-radius: 12px; /* A more modern, larger radius */
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08); /* A softer, deeper shadow */
+
+  /* Base Typography */
+  color: #333;
+  /* Using 'Lato' for a clean, readable body text */
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.75;
+}
+
+/* --- Headings (h1, h2, h3) --- */
+/* Using 'Poppins' for bold, modern headings */
+.Expand-View4 h1,
+.Expand-View4 h2,
+.Expand-View4 h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: #222; /* Dark headings for strong contrast */
+}
+
+/* Make the main title (h1) extra large */
+.Expand-View4 h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.Expand-View4 h1:first-child {
+  margin-top: 0;
+}
+
+/* Use the accent color for subheadings */
+.Expand-View4 h2 {
+  font-size: 2.2rem;
+  color: #FF6B00; /* Vibrant orange accent */
+}
+
+.Expand-View4 h3 {
+  font-size: 1.7rem;
+  color: #FF6B00;
+}
+
+/* --- Paragraphs --- */
+.Expand-View4 p {
+  margin-bottom: 1.25rem; /* Space between paragraphs */
+}
+
+/* --- Responsive Media (Images & Videos) --- */
+/* FORCES ALL MEDIA TO BE THE SAME 16:9 SIZE */
+.Expand-View4 img,
+.Expand-View4 video {
+  width: 100%; /* Make all media span the full width */
+  aspect-ratio: 16 / 9; /* FORCES a 16:9 widescreen shape */
+  object-fit: cover; /* Fills the box, cropping if needed */
+  
+  height: auto;
+  border-radius: 10px; /* Match the container's vibe */
+  margin: 2rem 0;
+  background-color: #f0f0f0; /* Placeholder color */
+  border: 1px solid #eee;
+}
+
+/* --- Links --- */
+.Expand-View4 a {
+  color: #FF6B00; /* Use the accent color */
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px dotted #ffc199; /* A light, dotted underline */
+  transition: all 0.2s ease;
+}
+
+.Expand-View4 a:hover {
+  color: #e65c00; /* Darker orange on hover */
+  border-bottom-style: solid;
+  border-bottom-color: #e65c00;
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View4 ul,
+.Expand-View4 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.Expand-View4 li {
+  margin-bottom: 0.5rem;
+}
+
+/* --- Blockquotes --- */
+/* A strong, accented quote style */
+.Expand-View4 blockquote {
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #444;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-left: 5px solid #FF6B00; /* Accent bar */
+  background-color: #fffaf5; /* A very light orange tint */
+  border-radius: 0 8px 8px 0;
+}
+
+.Expand-View4 blockquote p {
+  margin: 0;
+}
+/*
+=======================|| EXPAND-VIEW4 ENDS ||=======================================
+*/
+
+/*
+=======================|| EXPAND-VIEW5 STARTS ||=======================================
+*/
+/* --- Main Blog Container (Full-Bleed) --- */
+/* This container just sets the TEXT width */
+.Expand-View5 {
+  max-width: 750px; /* A comfortable reading width for text */
+  margin: 4rem auto; /* Centers the text column */
+  
+  /* Appearance */
+  background-color: #ffffff; /* White "page" */
+
+  /* Base Typography */
+  color: #2c2c2c;
+  /* 'Inter' is a very clean, modern font for body text */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+/* --- Headings (h1, h2, h3) --- */
+/* 'Playfair Display' is an elegant, high-contrast serif for titles */
+.Expand-View5 h1,
+.Expand-View5 h2,
+.Expand-View5 h3 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a; /* Strong black for headings */
+}
+
+.Expand-View5 h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+}
+
+/* Give the main title a subtle top border */
+.Expand-View5 h1:first-child {
+  margin-top: 0;
+  border-top: 4px solid #483d8b; /* A deep purple accent */
+  padding-top: 1.5rem;
+}
+
+.Expand-View5 h2 {
+  font-size: 2.4rem;
+}
+
+.Expand-View5 h3 {
+  font-size: 1.8rem;
+}
+
+/* --- Paragraphs --- */
+.Expand-View5 p {
+  margin-bottom: 1.5rem;
+}
+
+/* --- "EYE-CATCHY" MEDIA SECTION --- */
+/* This is the magic that makes media "break out" */
+.Expand-View5 img,
+.Expand-View5 video {
+  /* 1. Force the 16:9 "same size" ratio */
+  aspect-ratio: 16 / 9;
+  object-fit: cover; /* This crops the image to fit the 16:9 box */
+  
+  /* 2. Make it wider than the text container */
+  width: 1000px; 
+  max-width: 95vw; /* On small screens, just be 95% of the viewport width */
+  
+  /* 3. Center the breakout element on the page */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* 4. Styling */
+  margin: 2.5rem 0;
+  border-radius: 10px;
+  background-color: #f0f0f0; /* Placeholder color */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* --- "EYE-CATCHY" LINKS --- */
+.Expand-View5 a {
+  color: #483d8b; /* Deep purple accent */
+  font-weight: 600;
+  text-decoration: none;
+  
+  /* "Highlighter" background effect */
+  background-image: linear-gradient(to top, #d9d6e9 50%, transparent 50%);
+  background-size: 100% 200%;
+  background-position: 0 0;
+  transition: background-position 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.Expand-View5 a:hover {
+  /* On hover, the highlight "fills up" from the bottom */
+  background-position: 0 100%;
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View5 ul,
+.Expand-View5 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.Expand-View5 li {
+  margin-bottom: 0.75rem;
+}
+
+/* --- Blockquotes --- */
+/* A wide, centered, italic style for quotes */
+.Expand-View5 blockquote {
+  font-family: 'Playfair Display', serif; /* Match headings */
+  font-style: italic;
+  font-size: 1.6rem;
+  text-align: center;
+  color: #483d8b;
+  margin: 3rem 0;
+  padding: 1rem;
+  border: none;
+  background-color: transparent;
+}
+
+.Expand-View5 blockquote p {
+  margin: 0;
+}
+/*
+=======================|| EXPAND-VIEW5 ENDS ||=======================================
+*/
+
+/*
+=======================|| EXPAND-VIEW6 STARTS ||=======================================
+*/
+/* 1. Base Global Styles (Apply to body/page background) 
+  Sets the stage for a dark, dystopian night
+*/
+
+/* --- Main Blog Container (Cyberpunk) --- */
+.Expand-View6 {
+  /* Sizing and Centering */
+  max-width: 800px;
+  margin: 3rem auto;
+  
+  /* Appearance */
+  background-color: #1a0827; /* Darker content box */
+  border: 1px solid #3d0a6c; /* Deep purple border */
+  padding: 3rem;
+  border-radius: 4px;
+  
+  /* Base Typography */
+  color: #00ffff; /* Primary text color: Vivid Cyan */
+  /* 'Space Mono' gives a monospaced, terminal/code feel */
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* --- Headings (h1, h2, h3) --- */
+.Expand-View6 h1,
+.Expand-View6 h2,
+.Expand-View6 h3 {
+  /* 'Orbitron' is a geometric, futuristic display font */
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3.5rem;
+  margin-bottom: 1.2rem;
+  color: #ff00ff; /* Vivid Magenta */
+  
+  /* Neon Glow Effect */
+  text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}
+
+.Expand-View6 h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  /* Add an underline effect with a glitch border */
+  border-bottom: 3px solid #00ffff;
+  padding-bottom: 0.5rem;
+  box-shadow: 0 5px 10px rgba(0, 255, 255, 0.2);
+}
+
+.Expand-View6 h1:first-child {
+  margin-top: 0;
+}
+
+.Expand-View6 h2 {
+  font-size: 1.9rem;
+  /* Shift H2 to look like a menu/section header */
+  padding-left: 10px;
+  border-left: 5px solid #00ffff; 
+}
+
+.Expand-View6 h3 {
+  font-size: 1.4rem;
+}
+
+/* --- Paragraphs --- */
+.Expand-View6 p {
+  margin-bottom: 1rem;
+}
+
+/* --- Media (Images & Videos) - SAME SIZE 16:9 --- */
+.Expand-View6 img,
+.Expand-View6 video {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* FORCES 16:9 WIDESCREEN */
+  object-fit: cover; /* Crops media to fit */
+  
+  height: auto;
+  margin: 2rem 0;
+  border: 1px solid #ff00ff; /* Magenta frame */
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); /* Magenta outer glow */
+  opacity: 0.85; /* Slight opacity for a screen effect */
+}
+
+/* --- Links --- */
+.Expand-View6 a {
+  color: #00ffff; /* Cyan links */
+  text-decoration: none;
+  border-bottom: 1px dashed #00ffff; /* Dashed "digital" underline */
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.Expand-View6 a:hover {
+  color: #ff00ff; /* Switch color on hover for a "glitch" effect */
+  border-bottom-color: #ff00ff;
+  text-shadow: 0 0 3px #ff00ff;
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View6 ul,
+.Expand-View6 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 20px;
+  list-style-type: '>> '; /* Futuristic bullet points */
+}
+
+.Expand-View6 li {
+  margin-bottom: 0.5rem;
+}
+
+/* --- Code Blocks/Inline Code --- */
+/* Crucial for a terminal/cyberpunk look */
+.Expand-View6 pre,
+.Expand-View6 code {
+  font-family: 'Space Mono', monospace;
+  background-color: #2b123d; /* Darker purple code background */
+  color: #55ff55; /* Classic "green screen" text */
+  border: 1px solid #3d0a6c;
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
+}
+
+.Expand-View6 pre {
+  padding: 1em;
+  overflow-x: auto;
+  border: 2px dashed #00ffff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+  margin-bottom: 1.5rem;
+}
+
+/* --- Blockquotes --- */
+.Expand-View6 blockquote {
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #ffffff; /* White text for contrast */
+  margin: 2.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #ff00ff; /* Magenta accent bar */
+  background-color: #2b123d;
+  box-shadow: 0 0 8px rgba(255, 0, 255, 0.3);
+}
+/*
+=======================|| EXPAND-VIEW6 ENDS ||=======================================
+*/
+
+
+/*
+=======================|| EXPAND-VIEW7 STARTS ||=======================================
+*/
+/*
+=======================|| EXPAND-VIEW7 ENDS ||=======================================
+*/
+/* 1. Base Global Styles (Apply to body/page background) 
+  Sets a warm, off-white background for the page, like old paper.
+*/
+
+/* --- Main Blog Container (Vintage) --- */
+.Expand-View7 {
+  /* Sizing and Centering */
+  max-width: 780px;
+  margin: 3.5rem auto; /* More generous margin */
+  
+  /* Appearance */
+  background-color: #ffffff; /* Clean white inside */
+  border: 2px solid #d4c098; /* A muted, aged gold/brown border */
+  padding: 3rem;
+  border-radius: 8px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  
+  /* Base Typography */
+  color: #3f3e3a; /* Deep, muted brown-gray text */
+  /* 'Crimson Text' is a beautiful, readable serif */
+  font-family: 'Crimson Text', serif;
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+/* --- Headings (h1, h2, h3) --- */
+.Expand-View7 h1,
+.Expand-View7 h2,
+.Expand-View7 h3 {
+  /* 'Playfair Display' is elegant and strong, perfect for titles */
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3rem;
+  margin-bottom: 1.2rem;
+  color: #5a4b3f; /* Deep, rich brown for headings */
+}
+
+.Expand-View7 h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  border-bottom: 1px dashed #d4c098; /* Delicate dashed separator */
+  padding-bottom: 0.8rem;
+}
+
+.Expand-View7 h1:first-child {
+  margin-top: 0;
+}
+
+.Expand-View7 h2 {
+  font-size: 2.2rem;
+  color: #7d6b5d; /* Slightly lighter brown for subheadings */
+}
+
+.Expand-View7 h3 {
+  font-size: 1.7rem;
+  font-style: italic; /* Italic for a classic look */
+}
+
+/* --- Paragraphs --- */
+.Expand-View7 p {
+  margin-bottom: 1.2rem;
+}
+
+/* --- Media (Images & Videos) - SAME SIZE 16:9 --- */
+.Expand-View7 img,
+.Expand-View7 video {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* FORCES 16:9 WIDESCREEN */
+  object-fit: cover; /* Crops media to fit */
+  
+  height: auto;
+  margin: 2.2rem 0;
+  border: 5px solid #e9e3d4; /* Creamy "photo mat" border */
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15); /* Soft shadow for depth */
+  background-color: #f2f0e6; /* Placeholder color, slightly textured */
+  filter: sepia(0.2) saturate(1.1); /* Subtle sepia and saturation for vintage feel */
+}
+
+/* --- Links --- */
+.Expand-View7 a {
+  color: #8c4b00; /* A rich, deep orange-brown */
+  text-decoration: underline;
+  text-decoration-color: #d4c098;
+  text-decoration-thickness: 1px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.Expand-View7 a:hover {
+  color: #a05c10;
+  text-decoration-color: #8c4b00;
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View7 ul,
+.Expand-View7 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.8rem;
+  list-style-type: '— '; /* A dash for bullet points */
+}
+
+.Expand-View7 li {
+  margin-bottom: 0.6rem;
+}
+
+/* --- Blockquotes --- */
+.Expand-View7 blockquote {
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #5a4b3f;
+  margin: 2.5rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 3px solid #8c4b00; /* Accent color */
+  background-color: #fefcf5; /* Very light, warm background */
+  border-radius: 4px;
+}
+
+.Expand-View7 blockquote p {
+  margin: 0;
+}
+/*
+=======================|| EXPAND-VIEW8 STARTS ||=======================================
+*/
+/* 1. Base Global Styles (Apply to body/page background) */
+
+
+/* --- Main Blog Container (Blueprint) --- */
+.Expand-View8 {
+  /* Sizing and Centering */
+  max-width: 900px; /* Wide view for "schematics" */
+  margin: 3.5rem auto;
+  
+  /* Appearance */
+  /* Paper-like overlay effect */
+  background-color: #172a3a; 
+  padding: 4rem;
+  border: 4px dashed #fee715; /* Main yellow blueprint accent border */
+  
+  /* Base Typography */
+  color: #c4f3ff; /* Light Cyan text color */
+  /* Technical, monospace font */
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* --- Headings (h1, h2, h3) --- */
+.Expand-View8 h1,
+.Expand-View8 h2,
+.Expand-View8 h3 {
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+  color: #fee715; /* Bright Yellow accent for all titles */
+  /* Subtle text shadow for a backlit effect */
+  text-shadow: 0 0 3px rgba(254, 231, 21, 0.4); 
+}
+
+.Expand-View8 h1 {
+  font-size: 2.2rem;
+  text-align: center;
+  /* Add an outer box to the title */
+  border: 1px solid #fee715;
+  padding: 10px 0;
+  box-shadow: 0 0 10px rgba(254, 231, 21, 0.2);
+}
+
+.Expand-View8 h1:first-child {
+  margin-top: 0;
+}
+
+.Expand-View8 h2 {
+  font-size: 1.5rem;
+  /* Double line to separate sections */
+  border-bottom: 2px solid #fee715;
+  border-top: 1px solid #fee715;
+  padding: 8px 0;
+  text-align: left;
+}
+
+.Expand-View8 h3 {
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  /* Section label box */
+  background-color: #fee715;
+  color: #0d1a29; /* Dark text on bright background */
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+/* --- Paragraphs --- */
+.Expand-View8 p {
+  margin-bottom: 1.2rem;
+}
+
+/* --- Media (Images & Videos) - SAME SIZE 16:9 --- */
+.Expand-View8 img,
+.Expand-View8 video {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* FORCES 16:9 WIDESCREEN */
+  object-fit: cover;
+  
+  height: auto;
+  margin: 3rem 0;
+  /* Framed as a technical viewport */
+  border: 2px solid #fee715; 
+  box-shadow: 0 0 15px rgba(254, 231, 21, 0.3);
+  background-color: #0d1a29;
+  filter: grayscale(100%) brightness(1.8); /* Highly technical, high-contrast look */
+}
+
+/* --- Links --- */
+.Expand-View8 a {
+  color: #fee715; /* Bright Yellow links */
+  text-decoration: none;
+  border-bottom: 1px dotted #fee715;
+  font-weight: 400;
+  transition: all 0.2s ease;
+}
+
+.Expand-View8 a:hover {
+  background-color: #fee715;
+  color: #0d1a29; /* Inverted hover effect */
+}
+
+/* --- Lists (ul, ol) --- */
+.Expand-View8 ul,
+.Expand-View8 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 20px;
+}
+
+.Expand-View8 li {
+  margin-bottom: 0.6rem;
+  /* Use a system for list styling */
+  list-style-type: square;
+  color: #fee715; 
+}
+
+.Expand-View8 li span {
+  color: #c4f3ff; /* Reset color for text content */
+}
+
+/* --- Blockquotes (Used for Annotations/Readouts) --- */
+.Expand-View8 blockquote {
+  font-size: 1em;
+  color: #c4f3ff; 
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #112130; /* Slightly different background */
+  border-left: 5px solid #c4f3ff; /* Accent cyan line */
+  box-shadow: 0 0 5px rgba(196, 243, 255, 0.1);
+}
+/*
+=======================|| EXPAND-VIEW8 ENDS ||=======================================
+*/
+
+/*
+=======================|| EXPAND-VIEW9 STARTS ||=======================================
+*/
+/* 1. Base Global Styles */
+
+
+/* --- Main Blog Container (Academic) --- */
+.Expand-View9 {
+  /* Sizing and Centering */
+  max-width: 960px; /* Wide overall container */
+  margin: 3.5rem auto;
+  
+  /* Appearance */
+  background-color: #ffffff; /* Pure white content canvas */
+  /* Generous padding */
+  padding: 40px 60px; 
+  border: 1px solid #e0e0e0; /* Very light border */
+  
+  /* Base Typography */
+  color: #1a1a1a;
+  /* Classic, high-authority serif font */
+  font-family: 'Source Serif 4', serif;
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  
+  /* !!! KEY FOR PRINTED TEXT LOOK !!! */
+  text-align: justify;
+  hyphens: auto; /* Enable hyphenation for cleaner lines */
+}
+
+/* --- Headings (h1, h2, h3) --- */
+.Expand-View9 h1,
+.Expand-View9 h2,
+.Expand-View9 h3 {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3.5rem;
+  margin-bottom: 0.8rem;
+  color: #002244; /* Deep Navy Blue for authority */
+  text-align: left; /* Headings remain left-aligned */
+}
+
+.Expand-View9 h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #002244;
+  padding-bottom: 10px;
+}
+
+.Expand-View9 h2 {
+  font-size: 1.8rem;
+  margin-top: 3rem;
+  /* Add section numbering in a box */
+  counter-increment: section;
+  border-left: 5px solid #0056b3; /* Primary accent blue */
+  padding-left: 15px;
+}
+
+/* --- Paragraphs --- */
+.Expand-View9 p {
+  margin-bottom: 1rem;
+  /* Ensure paragraphs use justification */
+  text-align: justify;
+}
+
+/* --- Media (Images & Videos) - 16:9 Framed Figure --- */
+.Expand-View9 img,
+.Expand-View9 video {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* FORCES 16:9 WIDESCREEN */
+  object-fit: cover;
+  
+  height: auto;
+  margin: 2.5rem 0 1rem;
+  border: 1px solid #cccccc; 
+  background-color: #f7f7f7;
+}
+
+/* --- Figure Caption Styling --- */
+.Expand-View9 figcaption {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #555;
+    margin-bottom: 2.5rem;
+    text-align: center;
+}
+
+
+/* --- Links --- */
+.Expand-View9 a {
+  color: #0056b3; /* Bright, trustworthy blue */
+  text-decoration: none;
+  border-bottom: 1px dotted #0056b3;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.Expand-View9 a:hover {
+  color: #002244;
+  border-bottom-color: #002244;
+}
+
+/* --- Blockquotes (Styled as Marginalia/Footnotes) --- */
+.Expand-View9 blockquote {
+  font-size: 0.95em;
+  font-style: italic;
+  color: #555;
+  margin: 2rem 0;
+  padding: 1rem;
+  background-color: #f8f8f8; /* Light gray box for notes */
+  border-left: 3px solid #0056b3;
+}
+
+.Expand-View9 blockquote p {
+  margin: 0;
+  text-align: left; /* Keep notes left-aligned for easy reading */
+}
+
+/* --- Code Blocks (Used for Data/Equations) --- */
+.Expand-View9 pre {
+  font-family: monospace;
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 1em;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+/*
+=======================|| EXPAND-VIEW9 ENDS ||=======================================
+*/
+
+/*
+=======================|| EXPAND-VIEW10 STARTS ||=======================================
+*/
+
+/* --- Global Body Styling: The "Holographic" Canvas --- */
+
+
+/* --- Main Article Container (The "Data Stream") --- */
+.Expand-View10 {
+  max-width: 900px;
+  margin: 5rem auto; /* More margin to emphasize floating content */
+  padding: 30px 40px; /* Minimal padding within text blocks */
+  
+  background: rgba(0, 0, 0, 0.4); /* Semi-transparent background for text blocks */
+  border: 1px solid rgba(0, 255, 255, 0.3); /* Cyan border */
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); /* Cyan glow */
+  
+  /* Initial subtle glitch effect */
+  animation: glitchEffect 8s infinite alternate ease-in-out; 
+
+  color: #e0ffff;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  position: relative; /* For z-indexing of elements */
+}
+
+/* --- Headings (h1, h2, h3) --- */
+.Expand-View10 h1,
+.Expand-View10 h2,
+.Expand-View10 h3 {
+  font-family: 'Michroma', sans-serif; /* Bold, futuristic title font */
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  color: #ff00ff; /* Vivid Magenta for headings */
+  text-shadow: 0 0 8px #ff00ff, 0 0 15px rgba(255, 0, 255, 0.5); /* Stronger neon glow */
+  filter: contrast(150%); /* More contrast for glow */
+}
+
+.Expand-View10 h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.5);
+  animation: glitchEffect 12s infinite alternate ease-in-out 1s; /* Slower glitch for main title */
+}
+
+.Expand-View10 h1:first-child {
+  margin-top: 0;
+}
+
+.Expand-View10 h2 {
+  font-size: 1.8rem;
+  border-left: 3px solid #00ffff;
+  padding-left: 15px;
+  margin-left: -15px; /* Offset to align with left edge */
+  text-transform: uppercase;
+}
+
+.Expand-View10 h3 {
+  font-size: 1.3rem;
+  color: #00ffff;
+  text-transform: uppercase;
+  margin-left: 10px;
+}
+
+/* --- Paragraphs --- */
+.Expand-View10 p {
+  margin-bottom: 1.2rem;
+  /* subtle displacement for "data stream" effect */
+  transform: translateX(var(--offset, 0px)); 
+  transition: transform 0.1s ease-out; /* Smooth transition */
+}
+
+/* On hover, paragraphs slightly shift to indicate interaction */
+.Expand-View10 p:hover {
+  --offset: 2px;
+}
+
+/* --- Media (Images & Videos) - SAME SIZE 16:9 "Data Windows" --- */
+.Expand-View10 img,
+.Expand-View10 video {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* FORCES 16:9 WIDESCREEN */
+  object-fit: cover;
+  
+  height: auto;
+  margin: 3rem 0;
+  border: 2px solid #ff00ff; /* Magenta frame */
+  box-shadow: 0 0 25px rgba(255, 0, 255, 0.6); /* Intense glow */
+  filter: saturate(1.8) contrast(1.2); /* Boost colors for hyper-real effect */
+  opacity: 0.9;
+  background-color: #000000;
+  /* Loading/transmission animation */
+  animation: pulseData 3s infinite alternate ease-in-out;
+}
+
+@keyframes pulseData {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.005); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
+/* --- Links (Animated Data Packets) --- */
+.Expand-View10 a {
+  color: #00ffff; /* Cyan link text */
+  text-decoration: none;
+  border-bottom: 1px dashed #ff00ff; /* Glitchy dashed underline */
+  font-weight: 600;
+  text-shadow: 0 0 5px #00ffff;
+  transition: all 0.1s ease;
+  position: relative;
+  overflow: hidden; /* For the data packet effect */
+  display: inline-block;
+  padding: 0 2px;
+}
+
+.Expand-View10 a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.3), transparent);
+  transition: left 0.3s ease;
+}
+
+.Expand-View10 a:hover::before {
+  left: 100%;
+}
+
+.Expand-View10 a:hover {
+  color: #ff00ff;
+  border-bottom-color: #00ffff;
+  text-shadow: 0 0 8px #ff00ff;
+}
+
+
+/* --- Lists (Structured Data Arrays) --- */
+.Expand-View10 ul,
+.Expand-View10 ol {
+  margin-bottom: 1.5rem;
+  padding-left: 25px;
+  list-style-type: none; /* Remove default bullets */
+  color: #00ffff; /* List symbol color */
+}
+
+.Expand-View10 li {
+  margin-bottom: 0.7rem;
+  position: relative;
+  padding-left: 15px; /* Space for custom bullet */
+}
+
+.Expand-View10 li::before {
+  content: '>'; /* Custom bullet point */
+  position: absolute;
+  left: 0;
+  color: #ff00ff;
+  text-shadow: 0 0 5px #ff00ff;
+}
+
+/* --- Blockquotes (System Alerts/Decrypted Messages) --- */
+.Expand-View10 blockquote {
+  font-size: 1.1em;
+  font-style: italic;
+  color: #ff99e6; /* Lighter magenta for alerts */
+  margin: 3rem 0;
+  padding: 1.8rem;
+  background-color: rgba(25, 0, 25, 0.6);
+  border: 2px solid #ff00ff;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+  filter: saturate(1.5);
+  text-align: center;
+  animation: glitchEffect 10s infinite alternate-reverse ease-in-out 0.5s; /* Glitchy alert box */
+}
+
+.Expand-View10 blockquote p {
+  margin: 0;
+  text-align: center;
+}
+/*
+=======================|| EXPAND-VIEW10 ENDS ||=======================================
+*/
+</style>
+
+<div class="portfolio-wrapper">
+<div class="portfolio-container" id="portfolio">
+    
+{% for project in projects %}
+<div class="project-card">
+        <h3>{{ project.projectName }}</h3>
+        <img src="{{ url_for('static', filename='images/portFolio_Project_Images/' + project.imageName) }}" class="project-video" alt="" content_type="project.imageType">
+        <p class="project-description"> {{ project.discription }} </p>
+        <button class="project-link" onclick="showExpand( '{{project.projectName}}' )">Expand</button>
+</div>
+
+<!-- We set the id of the Expand-View as the project name so that it can be called by JS using its ID without any conflict -->
+         <div id="{{ project.projectName }}" style="display: none;"> 
+                <button style="color: orange; margin-right: 20vw; cursor: pointer; background: grey;" class="project-link" onclick="closeExpand( '{{project.projectName}}' )">X Close</button>
+                {{ project.HTMLcode | safe }}
+         </div>
+{% endfor %}
+
+</div>
+</div>
+
+<script>
+    function showExpand(project_name){
+        document.getElementById(project_name).style.display = "block";
+        document.getElementById(project_name).classList.add("Expand-card");
+        document.body.classList.add(blurred);
+    }
+    function closeExpand(project_name){
+        document.getElementById(project_name).style.display = "none";
+        document.getElementById(project_name).classList.remove("Expand-card");
+        document.body.classList.remove(blurred);
+    }
+</script>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Showcase | Team Portfolio</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin: 2rem 0 1rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: #1d3557;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: #333;
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+
+    /* ===== Team Grid ===== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .member-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .member-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    }
+
+    .member-card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .member-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .member-info {
+      padding: 1.2rem;
+    }
+
+    .member-info h3 {
+      color: #1d3557;
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .member-info p {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .portfolio-btn {
+      background: #1d3557;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.3s ease;
+    }
+
+    .portfolio-btn:hover {
+      background: #457b9d;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      margin-top: 3rem;
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      width: 100%;
+      font-size: 0.9rem;
+    }
+
+    /* ===== Fade-in Animation ===== */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .member-card {
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+      .openDashboard-form-style {
+    width: 90%;
+    max-width: 400px;
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .Dashboard-form-section {
+  display: flex;
+  justify-content: center;
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Team Members</h1>
+    <p>Meet our creative team behind the success</p>
+  </header>
+
+  <section class="team-grid">
+
+    {% for member in members %}
+    <div class="member-card">
+      <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName) }}" alt={{member.memberName}}>
+      <div class="member-info">
+        <h3>{{  member.memberName }}</h3>
+        <p>{{ member.memberPost }}</p>
+        <button class="portfolio-btn" onclick="window.location.href='/Home/{{member.memberCode}}' ">Visit Portfolio</button>
+        <br>
+        <br>
+        <button class="portfolio-btn" onclick="window.location.href='/memberDashboard/{{member.memberCode}}' ">Dashboard</button>
+      </div>
+    </div>
+    {% endfor %}
+
+  </section>
+  
+
+<div style="display: flex; flex-direction: row; gap: 15px;">
+        <button class="portfolio-btn" id="Login_Button" onclick="openDashboard()">Login To Dashboard</button>
+</div>
+
+  <!-- Form for entering password and go to Dashboard  -->
+<section class="Dashboard-form-section">
+  <div class="openDashboard-form-style" id="my-form" style="display: none;">
+    <form action="{{ url_for('portFolio.openDashboardFromTeamPortfolio') }}" method="post">
+      <label for="memberCode">Enter Your Member-Code</label>
+      <input type="text" name="memberCode" required>
+      <br>
+      <label for="password">Enter Your password</label>
+      <input type="password" name="password" autocomplete="off" required>
+      <button type="submit" class="portfolio-btn">Verify</button>
+      <button type="button" style="color: orange; margin-right: 20vw; cursor: pointer; background: grey;" onclick="closeDashboardForm()">X Cancel</button>
+    </form>
+  </div>
+</section>
+  <footer>
+    &copy; 2025 Team Project Showcase | Designed by Dev Crish Kha 
+  </footer>
+
+</body>
+<script>
+  function openDashboard(){
+    const form = document.getElementById("my-form");
+    const my_but = document.getElementById("Login_Button");
+    my_but.style.display = "none";
+    form.style.display = "block";
+  }
+  function closeDashboardForm(){
+    const form = document.getElementById("my-form");
+    const my_but = document.getElementById("Login_Button");
+    my_but.style.display = "block";
+    form.style.display = "none";
+  }
+</script>
+<script>
+window.onpageshow = function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+};
+</script>
+
+</html>

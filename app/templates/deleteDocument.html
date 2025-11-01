@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Document | Admin Panel</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png') }}" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    .admin-banner {
+      background: radial-gradient(circle at 20% 20%, #1d3557 0%, #0b1a33 80%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .admin-banner-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-banner h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin: 0.5rem 0;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-banner h1 i {
+      color: #ffb703;
+      font-size: 1.6rem;
+    }
+
+    .org-nav {
+      background: #457b9d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .org-nav button {
+      color: white;
+      background: #457b9d;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .org-nav button:hover {
+      background: #1d3557;
+    }
+
+    .delete-container {
+      width: 90%;
+      max-width: 700px;
+      margin: 3rem auto;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #1d3557;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .delete-container h2 {
+      color: #1d3557;
+      margin-bottom: 1rem;
+    }
+
+    .delete-container p {
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .delete-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    select, input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .delete-button {
+      background: #e63946;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .delete-button:hover {
+      background: #b5171e;
+    }
+
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="admin-banner">
+    <div class="admin-banner-content">
+      <h1><i class="fas fa-trash-alt"></i> Delete Document</h1>
+      <h3>Remove unwanted or outdated files</h3>
+    </div>
+  </div>
+
+  <nav class="org-nav">
+    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
+    <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
+  </nav>
+
+  <div class="delete-container">
+    <h2>Select a Document to Delete</h2>
+    <p>Please choose the document you want to remove from the system. This action is irreversible.</p>
+{% if documents %}
+    <form method="POST" action="/deleteDocument/{{memberCode}}" class="delete-form">
+      <select name="document" required>
+        <option value="">-- Select Document --</option>
+        {% for document in documents %}
+        <option value="{{ document }}">{{ document }}</option>
+        {% endfor %}
+      </select>
+      <input type="password" name="password" autocomplete="off" placeholder="Password" required>
+      <button type="submit" class="delete-button"><i class="fas fa-trash"></i> Delete</button>
+    </form>
+{% else %}
+<div class="no-docs">No documents found.</div>
+{% endif %}
+  </div>
+
+  <footer>
+    &copy; 2025 {{ memberName }} | Delete Document Page
+  </footer>
+
+</body>
+</html>

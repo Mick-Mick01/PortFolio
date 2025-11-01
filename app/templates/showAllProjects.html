@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> | All Projects</title>
+
+<style>
+    /* Base */
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    margin: 0;
+    background: #f9f9f9;
+    color: #333;
+}
+
+/* Portfolio Wrapper */
+.portfolio-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+}
+
+/* Grid Layout */
+.portfolio-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* Project Card */
+.project-card {
+    background: white;
+    border: 1px solid #1d3557;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Project Title */
+.project-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: #1d3557;
+}
+
+/* Project Image */
+.project-video {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    border: 2px solid #457b9d;
+    box-shadow: 0 0 15px rgba(69, 123, 157, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-video:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(69, 123, 157, 0.5);
+}
+
+/* Project Description */
+.project-description {
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 1rem;
+  white-space: pre-wrap; /* This preserves spaces and line breaks */
+}
+
+/* Buttons */
+.project-link {
+    background: #457b9d;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.project-link:hover {
+    background: #1d3557;
+}
+
+/* Expand View Overlay */
+#portfolio div[id] {
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 2rem;
+    margin-top: 1rem;
+    border-radius: 12px;
+}
+
+#portfolio div[id] button {
+    background: #ffb703;
+    color: #1d3557;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+#portfolio div[id] button:hover {
+    background: #ffa500;
+}
+
+.org-nav {
+      background: #457b9d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .org-nav button {
+      color: white;
+      background: #457b9d;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .org-nav button:hover {
+      background: #1d3557;
+    }
+    .admin-banner {
+      background: radial-gradient(circle at 20% 20%, #1d3557 0%, #0b1a33 80%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .admin-banner-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-banner h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin: 0.5rem 0;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-banner h1 i {
+      color: #ffb703;
+      font-size: 1.6rem;
+    }
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+/* Responsive */
+@media (max-width: 700px) {
+    .project-video {
+        max-height: 150px;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+  <div class="admin-banner">
+    <div class="admin-banner-content">
+      <h1><i class="fas fa-upload"></i> Edit Uploaded Projects</h1>
+      <h3>Make required changes to your projects.</h3>
+    </div>
+  </div>
+
+  <nav class="org-nav">
+    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
+  </nav>
+<div class="portfolio-wrapper">
+<div class="portfolio-container" id="portfolio">
+    
+{% for project in all_projects %}
+{% if project %}
+<div class="project-card">
+        <h3>|| {{ project.category }} || <br> {{ project.projectName }}</h3>
+        <img src="{{ url_for('static', filename='images/portFolio_Project_Images/' + project.imageName) }}" class="project-video" alt="" content_type="project.imageType">
+        <p class="project-description"> {{ project.discription }} </p>
+        <button class="project-link" onclick="window.location.href='/editProject/{{memberCode}}/{{ project.projectCode }}' ">Edit Project</button>
+</div>
+
+         
+{% else %}
+<p>No Project is added Yet !!</p>
+{% endif %}
+{% endfor %}
+
+</div>
+</div>
+
+  <footer>
+    &copy; 2025 Dev Crish Kha | Upload Document Page
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+<!-- templates/partials/member-card.html -->
+<div class="member-card" data-profile="{{ member.profile_url }}">
+  <img src="{{ url_for('static', filename=member.image) }}" alt="{{ member.memberName }}" />
+  <button class="open-profile" onclick="location.href='{{ member.profile_url }}'">Open Profile</button>
+</div>

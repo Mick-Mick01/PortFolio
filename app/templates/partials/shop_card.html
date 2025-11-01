@@ -1,0 +1,10 @@
+
+<a href="/Gigamart/shop/{{ marketName }}/{{ shop['shopName'] }}" class="shop-link" style="text-decoration: none;">
+    <div class="shop-card">
+        <img src="{{ url_for( 'Gigamart.streamShopImage', marketName=marketName,  filename=shop['shopImageName'] ) }}" alt={{shop.ownerName}} />
+        <div class="shop-info">
+          <h4>{{ shop.shopName }}</h4>
+          <p>Stall-{{ shop.stallNumber }} | Open {{ shop.openHours }}</p>
+        </div>
+    </div>
+</a>

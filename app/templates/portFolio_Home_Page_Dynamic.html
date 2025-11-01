@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png' ) }}">
+  <title>{{ member.memberName }} | Project Showcase</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #333;
+    }
+
+    /* Header */
+    .web-header {
+      background: #1d3557;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 30px;
+    }
+
+    .logo-img {
+      height: 60px;
+    }
+
+    .my-img{
+            max-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(13, 71, 161, 0.3);
+            margin-bottom: 1.5rem;
+    }
+
+    .org-title {
+      font-size: 1dvb;
+      font-weight: bold;
+    }
+
+    /* Navbar */
+    .org-nav {
+      background: #457b9d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .org-nav a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .org-nav a:hover {
+      background: #1d3557;
+    }
+
+    /* Banner */
+/* Banner */
+  .banner {
+    background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+    display: flex;
+    align-items: center;          /* vertically centers everything */
+    justify-content: space-between; /* spreads left + center + right */
+    padding: clamp(1rem, 4vw, 3rem);
+    text-align: center;
+  }
+
+  /* Left side (title) */
+  .banner .org-title {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.8rem;
+  }
+
+  .banner h1 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    margin: 10px 0;
+  }
+
+  .banner h3 {
+    font-weight: normal;
+    margin: 5px 0 20px;
+  }
+  /* Optional invisible flex item for right side balance */
+  .banner::after {
+    content: "";
+    flex: 1;
+  }
+
+
+    /* Portfolio */
+    .portfolio-wrapper {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+    }
+
+    .portfolio-container {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      padding: 10px;
+    }
+
+    /* .portfolio-container::-webkit-scrollbar {
+      display: none;
+    } */
+
+.project-card {
+  flex: 1 1 250px; /* keeps responsive sizing */
+  max-width: 33vw;
+  min-height: 40vh; /* fixed height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #1d3557; /* solid black border */
+  box-shadow: 10px 8px 20px rgba(0, 0, 0, 0.25); /* darker shadow for visibility */
+  padding: 10px;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s; /* optional hover effect */
+}
+
+/* Optional: hover effect to make shadow pop */
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+    .project-card h3 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    
+
+    .project-card {
+      flex: 1 1 250px; /* makes them responsive, min width 250px */
+      max-width: 300px;
+    }
+    
+    .project-video {
+      width: 100%;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+
+    .project-link {
+      background: #1d3557;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 6px;
+    }
+
+    .project-link:hover {
+      background: #457b9d;
+    }
+
+    .project-button{
+      background: #457b9d;
+      color: white;
+      padding: 10px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: 0px;
+      margin-right: 5px;
+    }
+    .project-button:hover {
+      background: #1d3557;
+    }
+    /* Footer */
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+     /* ================================
+       MEDIA QUERIES FOR RESPONSIVENESS
+       ================================ */
+
+    /* Tablets and small laptops */
+    @media (max-width: 480px) {
+      .banner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .my-img {
+        max-width: 150px;
+        margin-bottom: 1rem;
+      }
+
+      .org-nav a {
+        padding: 10px 15px;
+      }
+    }
+
+    /* Large phones and small tablets */
+    @media (max-width: 768px) {
+      .banner h1 {
+        font-size: 1.8rem;
+      }
+
+      .banner h3 {
+        font-size: 1rem;
+      }
+
+      .org-nav {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .project-card {
+        flex: 1 1 100%;
+        max-width: 90%;
+      }
+
+      .portfolio-wrapper {
+        width: 95%;
+      }
+    }
+
+    /* Phones */
+    @media (max-width: 480px) {
+      .banner {
+        padding: 1rem;
+      }
+
+      .banner h1 {
+        font-size: 1.5rem;
+      }
+
+      .banner h3 {
+        font-size: 0.9rem;
+      }
+
+      .org-nav button {
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+
+      footer {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="./static/css/myStyle.css">
+</head>
+<body>
+
+  <!-- Banner -->
+<!-- Banner -->
+<div class="banner">
+  <div class="org-title" style="margin-bottom: 10vw;"> {{ member.memberName }} <br> {{ member.collegeCode }} <br> {{ member.course_Roll }} </div>
+  <div>
+    <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName ) }}" alt="{{ member.memberName }}" class="my-img">
+    <h1>Project Showcase</h1>
+    <h3>Explore My Completed & Upcoming Projects</h3>
+  </div>
+</div>
+
+    <!-- Navigation Bar -->
+  <nav class="org-nav">
+    <!-- <button onclick="showProjectView('WebApp-Projects', '{{ member.memberCode }}')" class="project-button">WebApps</button>
+    <button onclick="showProjectView('Electronics-Projects', '{{ member.memberCode }}')" class="project-button">Electronics</button>
+    <button onclick="showProjectView('Proof-of-Concepts', '{{ member.memberCode }}')" class="project-button">Proof of Concepts</button>
+    <button onclick="showProjectView('Upcoming-Projects', '{{ member.memberCode }}')" class="project-button">Upcoming Projects</button>
+    <button onclick="showProjectView('current-study-topics', '{{ member.memberCode }}')" class="project-button">Current Study Topics</button> -->
+    {% for category in categories %}
+      <button onclick="showProjectView( '{{category}}', '{{ member.memberCode }}')" class="project-button">{{category}}</button>
+    {% endfor %}
+    <!-- <button onclick="window.location.href='/AboutMe'" class="project-button">About Me</button> -->
+    <button onclick="window.location.href='/Documents/{{member.memberCode}}' " class="project-button">Documents & Notes</button>
+    <button onclick="window.location.href='/TeamPortFolio' " class="project-button">Team PortFolio</button>
+    <button onclick="window.location.href='/ReachMe/{{member.memberCode}}'" class="project-button">Reach Me</button>
+  </nav>
+
+  <!-- Portfolio -->
+<div id="project-view-div">
+      </div>
+    </div>
+</div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 {{ member.memberName }} | Developed by Dev Crish Kha | Styled by GPT
+  </footer>
+</body>
+
+<script>
+  function showProjectView(project_category, memberCode){
+    fetch(`/render_projectView/${project_category}/${memberCode}`)
+    .then(response => response.text())
+    .then(HTML => {
+      const container = document.getElementById("project-view-div");
+      container.innerHTML = "";
+      container.insertAdjacentHTML('beforeend', HTML);
+    })
+    .catch(error => console.error('Error: ', error));
+  }
+</script>
+
+
+<script>
+window.onpageshow = function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+};
+</script>
+
+</html>

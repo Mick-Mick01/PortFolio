@@ -1,0 +1,113 @@
+<style>
+    /* Portfolio Styles (your existing code) */
+  .portfolio-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    overflow: hidden;
+    margin: 30px auto; /* add spacing below banner */
+  }
+
+  .portfolio-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 15px;
+    padding: 10px;
+  }
+
+  .portfolio-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-card {
+    min-width: 250px;
+    max-width: 250px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+    .portfolio-container {
+      display: flex;
+      flex-wrap: wrap; /* ✅ allow wrapping to next line */
+      gap: 15px;
+      justify-content: center; /* optional: center the cards nicely */
+      padding: 10px;
+      overflow-x: hidden; /* remove horizontal scroll */
+    }
+    .project-card {
+      flex: 1 1 250px; /* makes them responsive, min width 250px */
+      max-width: 300px;
+    }
+    
+  .project-card h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+
+  .project-video {
+    width: 100%;
+    border-radius: 8px;
+    margin: 8px 0;
+  }
+
+  .project-description {
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 10px;
+    white-space: pre-wrap;   /* ✅ keeps line breaks but allows wrapping */
+    word-wrap: break-word;   /* ✅ avoids long words pushing outside */
+  }
+
+  .project-link {
+    background: #007BFF;
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.3s;
+  }
+
+  .project-link:hover {
+    background: #0056b3;
+  }
+
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    z-index: 10;
+  }
+
+  .scroll-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .scroll-left {
+    left: 10px;
+  }
+
+  .scroll-right {
+    right: 10px;
+  }
+</style>
+<div class="project-card">
+        <h3>{{ project.projectName }}</h3>
+        <img src="{{ url_for('portFolio.streamMedia', filename=project.imageName ) }}" class="project-video" alt="">
+        <p class="project-description"> {{ project.discription }} </p>
+        <a class="project-link" href="{{ project.projectLink }}" target="_blank">Expand</a>
+</div>

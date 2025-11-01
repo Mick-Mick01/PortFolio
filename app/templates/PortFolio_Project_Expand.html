@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Name | HTML Code Editor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      background: #fff;
+      color: #333;
+    }
+
+    .org-nav {
+      background: #457b9d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .org-nav a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .org-nav a:hover {
+      background: #1d3557;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(1rem, 4vw, 3rem);
+      text-align: center;
+    }
+
+    .banner h1 {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      margin: 10px 0;
+    }
+
+    /* Editor section */
+    .editor-wrapper {
+      width: 90%;
+      max-width: 1200px;
+      margin: 30px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    textarea {
+      width: 100%;
+      height: 80vh;
+      background: white;
+      color: black;
+      font-family: monospace;
+      font-size: 15px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+      resize: vertical;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Fixed Button Container */
+    .button-panel {
+      position: fixed;
+      right: 30px;
+      top: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .button-panel button {
+      background: #1d3557;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin-bottom: 2vh;
+      margin-right: 0.8vw;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .button-panel button:hover {
+      background: #457b9d;
+    }
+
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner -->
+  <div class="banner">
+    <div>
+      <h1>Expand View Code</h1>
+      <h3>Write your project's Expand view here<br> We follow a Tailwind format to write your Expand-view </h3>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="org-nav">
+    <a href="#">Home</a>
+    <a href="#">Projects</a>
+    <a href="#">About</a>
+  </nav>
+
+
+  <!-- FORM  -->
+  <div class="editor-wrapper">
+   <form action="/addProject" method="post" enctype="multipart/form-data">
+        <select name="category">
+          <!-- Not Fetching categories from mongoDB cause no spaces are allowed in collection names -->
+                <option value="Web_App-Projects">Web App Projects</option>
+                <option value="Proof-of-Concepts">Proof of Concepts</option>
+                <option value="Upcoming-Projects">Upcoming Projects</option>
+                <option value="Electronics Projects">Electronics Projects</option>
+        </select>
+
+        <!-- The projectLink & HTMLcode is not required, user can add it later on with an update method -->
+
+        <input type="text" name="projectName" placeholder="project Name ?" required>
+        <input type="text" name="projectLink" placeholder="project Link ?" >
+        <input type="file" name="image" placeholder="image" required>
+        <br>
+        <textarea name="discription" placeholder="Discription..." required></textarea>
+        <br>
+        <br>
+  <!-- Editor -->
+    <textarea id="codeArea" placeholder="Start writing here..."></textarea>
+  </div>
+</form>
+
+
+  <!-- Fixed Buttons -->
+  <div class="button-panel">
+    <button onclick="saveCode()">Save Expand View</button>
+    <button onclick="previewCode()">Preview</button>
+    <button type="submit">Save Project</button>
+  </div>
+
+        
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Company Name | Devloped by Me | Styled by GPT
+  </footer>
+
+  <script>
+    async function saveCode() {
+      const code = document.getElementById('codeArea').value;
+      const response = await fetch('/save_code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ html_code: code })
+      });
+
+      if (response.ok) {
+        alert('Code saved successfully!');
+      } else {
+        alert('Error saving code.');
+      }
+    }
+
+    function previewCode() {
+      const code = document.getElementById('codeArea').value;
+      const previewWindow = window.open('', '_blank');
+      previewWindow.document.open();
+      previewWindow.document.write(code);
+      previewWindow.document.close();
+    }
+  </script>
+
+</body>
+</html>

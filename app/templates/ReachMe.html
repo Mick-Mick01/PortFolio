@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reach Me | Dev Crish Kha</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #fff;
+      color: #333;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Full-page banner */
+    .banner {
+      background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .banner h1 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      color: #1d3557;
+      margin-bottom: 0.5rem;
+    }
+
+    .banner h3 {
+      color: #333;
+      font-weight: normal;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Compact Form */
+    .contact-form {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid #1d3557;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      max-width: 400px;
+      width: 100%;
+      text-align: left;
+      transition: transform 0.3s ease;
+    }
+
+    .contact-form:hover {
+      transform: translateY(-3px);
+    }
+
+    .contact-form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+      color: #1d3557;
+      font-size: 0.9rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 0.9rem;
+      margin-top: 4px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #1d3557;
+      box-shadow: 0 0 5px rgba(29, 53, 87, 0.3);
+      outline: none;
+    }
+
+    .contact-form textarea {
+      resize: none;
+      height: 60px;
+    }
+
+    .submit-btn {
+      background: #1d3557;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 15px;
+      display: block;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #457b9d;
+    }
+
+    .project-button{
+      background: #457b9d;
+      color: white;
+      padding: 10px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: 0px;
+      margin-right: 5px;
+    }
+    .project-button:hover {
+      background: #1d3557;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: #1d3557;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      .contact-form {
+        padding: 1rem 1.2rem;
+      }
+
+      .banner h1 {
+        font-size: 1.6rem;
+      }
+
+      .banner h3 {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Top Center Buttons -->
+<div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; text-align: center;">
+  <button onclick="location.href='/Home/{{memberCode}}'" 
+          style="margin: 0 10px; padding: 8px 16px; background: #1d3557; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+    Home
+  </button>
+  <button onclick="location.href='/TeamPortFolio'" 
+          style="margin: 0 10px; padding: 8px 16px; background: #1d3557; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+    Team PortFolio
+  </button>
+</div>
+
+  <div class="banner">
+    <h1>Reach Me</h1>
+    <h3>Drop your details below — I’ll get back to you soon.</h3>
+
+    <form class="contact-form" action="/ReachMe/{{memberCode}}" method="POST">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" placeholder="Your name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="you@example.com" required>
+
+      <label for="mobile">Mobile</label>
+      <input type="tel" id="mobile" name="mobile" placeholder="📞•••" required>
+
+      <label for="message">Message</label>
+      <textarea id="message" name="message" placeholder="Hi, I’d like to connect..." required></textarea>
+
+      <button type="submit" class="submit-btn">Send</button>
+    </form>
+
+    <footer>
+      &copy; 2025 Dev Crish Kha | Developed by Dev Crish Kha | Styled by GPT
+    </footer>
+  </div>
+
+</body>
+</html>

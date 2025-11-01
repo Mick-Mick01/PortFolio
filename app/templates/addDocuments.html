@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Document | Admin Panel</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png') }}" />
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    .admin-banner {
+      background: radial-gradient(circle at 20% 20%, #1d3557 0%, #0b1a33 80%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .admin-banner-content {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .admin-banner h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin: 0.5rem 0;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-banner h1 i {
+      color: #ffb703;
+      font-size: 1.6rem;
+    }
+
+    .org-nav {
+      background: #457b9d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .org-nav button {
+      color: white;
+      background: #457b9d;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .org-nav button:hover {
+      background: #1d3557;
+    }
+
+    .upload-container {
+      width: 90%;
+      max-width: 700px;
+      margin: 3rem auto;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #1d3557;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .upload-container h2 {
+      color: #1d3557;
+      margin-bottom: 1rem;
+    }
+
+    .upload-container p {
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    input[type="file"], input[type="password"] {
+      width: 80%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .upload-button {
+      background: #2a9d8f;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .upload-button:hover {
+      background: #1f776d;
+    }
+
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <div class="admin-banner">
+    <div class="admin-banner-content">
+      <h1><i class="fas fa-upload"></i> Upload Document</h1>
+      <h3>Securely add new files to the system</h3>
+    </div>
+  </div>
+
+  <nav class="org-nav">
+    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
+    <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
+  </nav>
+
+  <div class="upload-container">
+    <h2>Upload a New Document</h2>
+    <p>Select a document to upload and confirm your password for security.</p>
+
+    <form method="POST" action="/addDocuments/{{memberCode}}" enctype="multipart/form-data" class="upload-form">
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="file" name="document" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg" required>
+      <button type="submit" class="upload-button"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+    </form>
+  </div>
+
+  <footer>
+    &copy; 2025 {{ memberName }} | Upload Document Page
+  </footer>
+
+</body>
+</html>

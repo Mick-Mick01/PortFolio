@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ categoryName }} | Items</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png' ) }}">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Noto Sans', sans-serif;
+      background-color: #f4f7fa;
+      color: #2a2a2a;
+    }
+    header {
+      background-color: #002366;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .org-logo {
+      display: flex;
+      align-items: center;
+    }
+    .org-logo img {
+      height: 48px;
+      margin-right: 12px;
+    }
+    .org-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .category-header {
+      text-align: center;
+      padding: 1.5rem;
+      background-color: #ffffff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .category-name {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #003366;
+    }
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 2rem;
+    }
+    .item-card {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .item-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .item-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .item-info {
+      padding: 1rem;
+    }
+    .item-name {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #002366;
+      margin-bottom: 0.5rem;
+    }
+    .item-seller {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.3rem;
+    }
+    .item-price {
+      font-size: 1.1rem;
+      color: #008000;
+      font-weight: bold;
+      margin-bottom: 0.4rem;
+    }
+    .item-rating {
+      font-size: 0.9rem;
+      color: #f5a623;
+    }
+    footer {
+      background: #002366;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 600px) {
+      .item-grid {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+        padding: 1rem;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="org-logo">
+      <img src="{{ url_for('static', filename='images/logo_1.png' ) }}" alt="Logo" style="border-radius: 50%;" />
+      <div class="org-title">Gigamart<br/>{{ categoryName }} | Items</div>
+    </div>
+  </header>
+
+  <div class="category-header">
+    <div class="category-name">{{ categoryName }}</div>
+  </div>
+
+  <div class="item-grid">
+    <h4>**No seller added any item yet</h4>
+    {% for item in items %}
+    <div class="item-card">
+      <img src="{{ url_for('static', filename='images/items/' + item.image) }}" alt="{{ item.name }}">
+      <div class="item-info">
+        <div class="item-name">{{ item.name }}</div>
+        <div class="item-seller">Seller: {{ item.seller }}</div>
+        <div class="item-price">₹{{ item.price }}</div>
+        <div class="item-rating">⭐{{ item.rating }}/5</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <footer>
+    &copy; 2025 Gigamart | VikshitBharat Initiative
+  </footer>
+</body>
+</html>
