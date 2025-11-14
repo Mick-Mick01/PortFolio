@@ -1,5 +1,4 @@
 import pymongo
-from bson import Binary
 from .small_libraries import *
 
 # client = pymongo.MongoClient('mongodb://localhost:27017')
