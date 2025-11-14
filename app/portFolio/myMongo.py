@@ -6,7 +6,7 @@ Atlas_string2 = "mongodb://dev3kha7_8721:YWzwlBcc4swtZEqN@ac-0x74grp-shard-00-00
 
 # We'll try to update the projects in both the mongoDB databases in localhostand Atlas, if Localhost is off Atlas will work
 # WHILE READING DATA ONLY USE ATLAS
-local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
 
 

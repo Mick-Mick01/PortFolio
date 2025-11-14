@@ -2,7 +2,9 @@ import pymongo
 from bson import Binary
 from .small_libraries import *
 
-client = pymongo.MongoClient('mongodb://localhost:27017')
+# client = pymongo.MongoClient('mongodb://localhost:27017')
+Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
+client = pymongo.MongoClient(Atlas_string1)
 
 def uploadShop(shopName, ownerName, stallNumber, mobile, openHours, shopImage, ownerImage, shopType, marketName):
     data = {

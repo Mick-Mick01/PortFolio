@@ -10,8 +10,10 @@ from email.mime.text import MIMEText
 smtp_host = 'smtp.zoho.in'
 smtp_port = 465  # Use 465 for SSL
 
+Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
 #WHILE UPLOADING DATA USE BOTH LOCAL & ATLAS DBs
-local_client = pymongo.MongoClient("mongodb://localhost:27017")
+# local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
 
 '''

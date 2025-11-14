@@ -4,7 +4,9 @@ import pymongo
 from . import Gigamart_bp
 
 
-client = pymongo.MongoClient('mongodb://localhost:27017')
+# client = pymongo.MongoClient('mongodb://localhost:27017')
+Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
+client = pymongo.MongoClient(Atlas_string1)
 
 @Gigamart_bp.route('/upload_shop', methods=['GET', 'POST'])
 def form():

@@ -5,9 +5,9 @@ import sys
 from . import hosting_bp
 import keyword
 
-#client = pymongo.MongoClient('mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/?retryWrites=true&w=majority&appName=1stCluster')
-
-client = pymongo.MongoClient("mongodb://localhost:27017")
+# client = pymongo.MongoClient("mongodb://localhost:27017")
+Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
+client = pymongo.MongoClient(Atlas_string1)
 db = client['GNIT_Friends_Hosted_Website']
 
 
