@@ -280,7 +280,9 @@
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <select name="category" id="category">
           {% for category in categories %}
+          {% if category != project.category %}
           <option value="{{category}}">{{category}}</option>
+          {% endif %}
           {% endfor %}
         </select>
         <input type="password" name="password" placeholder="Confirm password" required>

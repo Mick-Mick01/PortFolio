@@ -366,7 +366,7 @@ def addCategory(memberCode):
                                                     EDIT PROJECTS
 =======================================================================================================================================================================================================
 '''
-@portFolio_bp.route('/showMemberProjects/<memberCode>', methods=['POST', 'GET'])
+@portFolio_bp.route('/showAllProjects/<memberCode>', methods=['POST', 'GET'])
 def showProjects(memberCode):
     db1 = local_client['PortFolio-Confidential']
     collection = db1['Members']
@@ -398,7 +398,7 @@ def editProject(memberCode, projectCode):
         project = colection.find_one({"projectCode":projectCode})
         if project:
             return render_template("editProject.html", memberCode=memberCode, project=project, memberName=member['memberName'], categories=categories)
-    return redirect(f'/showMemberProjects/{memberCode}')
+    return redirect(f'/showAllProjects/{memberCode}')
 
 @portFolio_bp.route('/updateProjectName/<memberCode>', methods=['POST', 'GET'])
 def updateProjectName(memberCode):
@@ -417,7 +417,7 @@ def updateProjectName(memberCode):
             for category in categories:
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"projectName":projectName}})
-            return redirect(f'/showMemberProjects/{memberCode}')
+            return redirect(f'/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 
@@ -438,7 +438,7 @@ def updateProjectDescription(memberCode):
             for category in categories:
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"discription":projectDescription}})
-            return redirect(f'/showMemberProjects/{memberCode}')
+            return redirect(f'/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 @portFolio_bp.route('/updateProjectPhoto/<memberCode>', methods=['POST', 'GET'])
@@ -461,7 +461,7 @@ def updateProjectPhoto(memberCode):
                 if requiredProject:
                     collection2.update_one({"projectCode":projectCode}, {'$set': {"imageName":projectPhoto.filename}})
                     portFolio_Project_Images(projectPhoto)
-            return redirect(f'/showMemberProjects/{memberCode}')
+            return redirect(f'/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
     
 @portFolio_bp.route('/updateProjectCategory/<memberCode>', methods=['POST', 'GET'])
@@ -487,7 +487,7 @@ def updateProjectCategory(memberCode):
                     collection2.delete_one({"projectCode":projectCode})
                     db2[projectCategory].update_one({"projectCode":projectCode}, {'$set': {"category":projectCategory}})
                     break
-            return redirect(f'/showMemberProjects/{memberCode}')
+            return redirect(f'/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 
@@ -508,7 +508,7 @@ def updateExpandView(memberCode):
             for category in categories:
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"HTMLcode":Expandview}})
-            return redirect(f'/showMemberProjects/{memberCode}')
+            return redirect(f'/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 '''
