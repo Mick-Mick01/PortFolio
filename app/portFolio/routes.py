@@ -49,7 +49,7 @@ def render_projectView(project_category, memberCode):
     return render_template("partials/projectView.html", projects=projects)
 
 # ROUTE FOR PEOPLES TOO SEE MY WHOLE TEAM AND THEIR PORTFOLIO
-@portFolio_bp.route('/TeamPortFolio')
+@portFolio_bp.route('/TeamPortFolio', methods=['POST', 'GET'] )
 def TeamPortFolio():
     db = local_client["PortFolio-Confidential"]
     collection = db["Members"]
