@@ -1,6 +1,7 @@
 from flask import *
 from . import myMongo
 import pymongo
+import pathlib
 from . import portFolio_bp
 import os
 import smtplib
@@ -224,7 +225,9 @@ def addProject(memberCode):
     return render_template('addProject.html', categories=categories, memberCode=memberCode, memberName=member['memberName'])
 
 def portFolio_Project_Images(image):
-    save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\images\\portFolio_Project_Images"
+    from pathlib import Path
+    save_directory = Path(__file__).parent.parent / "static" / "images" / "portFolio_Project_Images"
+#   save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\images\\portFolio_Project_Images"
     save_filename = image.filename
     full_save_path = os.path.join(save_directory, save_filename)
     os.makedirs(save_directory, exist_ok=True)
@@ -250,7 +253,7 @@ def uploadDocument(memberCode):
             documents.append(new_doc.filename)
             collection.update_one({"memberCode":memberCode}, {"$set": {"documents":documents}})
             
-            storeDoc(new_doc)
+            storeDoc2(new_doc)
             return redirect(f'/addDocuments/{memberCode}')
         else:
             return "Incorrect Password !!"
@@ -263,6 +266,14 @@ def storeDoc(new_file):
     full_save_path = os.path.join(save_directory, save_filename)
     os.makedirs(save_directory, exist_ok=True)
     new_file.save(full_save_path)
+    
+def storeDoc2(new_file):
+    from pathlib import Path
+    folder = Path(__file__).parent.parent
+    location = folder / "static" / "documents"
+    location.mkdir(parents=True, exist_ok=True)
+    full_save_path = location / new_file.filename
+    new_file.save(str(full_save_path))
 
 # ROUTE TO DELETE A DOCUMENT
 @portFolio_bp.route('/deleteDocument/<memberCode>', methods=['POST', 'GET'])
@@ -546,7 +557,9 @@ def updatePhoto(memberCode):
     return redirect(f'/editProfile/{memberCode}')
 
 def portFolio_Member_Images(photo):
-    save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\images\\portFolio_Member_Images"
+    from pathlib import Path
+#   save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\images\\portFolio_Member_Images"
+    save_directory = Path(__file__).parent.parent / "static" / "images" / "portFolio_Member_Images"
     save_filename = photo.filename
     full_save_path = os.path.join(save_directory, save_filename)
     os.makedirs(save_directory, exist_ok=True)
