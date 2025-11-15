@@ -54,7 +54,7 @@ def TeamPortFolio():
     db = local_client["PortFolio-Confidential"]
     collection = db["Members"]
     members = list(collection.find())
-    return render_template("TeamPortfolio.html", members=members)
+    return render_template("TeamPortFolio.html", members=members)
 
 # ROUTE FOR PEOPLE TO SEE THE DOWNLOAD DOCUMENT PAGE
 @portFolio_bp.route('/Documents/<memberCode>', methods=['POST', 'GET'])
