@@ -231,7 +231,7 @@ def portFolio_Project_Images(image):
     save_filename = image.filename
     full_save_path = os.path.join(save_directory, save_filename)
     os.makedirs(save_directory, exist_ok=True)
-    image.save(full_save_path)
+    image.save(str(full_save_path))
 
 # ROUTE TO ADD NEW-DOCUMENT TO YOUR PORTFOLIO
 @portFolio_bp.route('/addDocuments/<memberCode>', methods=['POST', 'GET'])
@@ -563,7 +563,7 @@ def portFolio_Member_Images(photo):
     save_filename = photo.filename
     full_save_path = os.path.join(save_directory, save_filename)
     os.makedirs(save_directory, exist_ok=True)
-    photo.save(full_save_path)
+    photo.save(str(full_save_path))
 
 @portFolio_bp.route("/updatePassword/<memberCode>", methods=['POST', 'GET'])
 def updatePassword(memberCode):
