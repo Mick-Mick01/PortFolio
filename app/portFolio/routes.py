@@ -72,8 +72,10 @@ def Documents(memberCode):
 # ROUTE FOR THE DOWNLOAD-DOCUMENT PAGE USNG WHICH THE DOCUMENT WILL ACTUALLY DOWNLAOD. ELSE IT WILL JUST OPEN THE DOCUMENT IN THE BROWSER
 @portFolio_bp.route('/Documents/download/<filename>')
 def download_document(filename):
+    from pathlib import Path
     # Assuming your files are stored in static/documents/
-    directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\documents"
+    directory = Path(__file__).parent.parent / "static" / "documents"
+#    directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\documents"
     try:
         return send_from_directory(directory, filename, as_attachment=True)
     except FileNotFoundError:
