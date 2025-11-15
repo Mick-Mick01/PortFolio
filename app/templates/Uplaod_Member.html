@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Member Upload Form</title>
+  <style>
+    :root{
+      --bg:#031028; /* very dark blue */
+      --panel:#072043; /* slightly lighter */
+      --accent:#0ea5ff; /* bright cyan */
+      --muted:#9fb4d8;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,var(--bg), #041936 70%);
+      color:var(--muted);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+    }
+
+    .card{
+      width:100%;
+      max-width:920px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:var(--radius);
+      padding:26px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+    }
+
+    h1{
+      margin:0 0 12px 0;
+      color:var(--accent);
+      font-size:20px;
+      letter-spacing:0.4px;
+    }
+    p.lead{margin:0 0 20px 0; color:var(--muted);}
+
+    form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .full{grid-column:1/-1}
+
+    label{display:block;font-size:12px;margin-bottom:6px;color:var(--muted);}
+    input[type=text], input[type=password], select, textarea, .file, .multiselect{
+      width:100%;
+      padding:10px 12px;
+      background:var(--glass);
+      border:1px solid rgba(255,255,255,0.04);
+      color:var(--muted);
+      border-radius:10px;
+      outline:none;
+      box-sizing:border-box;
+      font-size:14px;
+    }
+    input:focus, select:focus, textarea:focus{box-shadow:0 0 0 4px rgba(14,165,255,0.06); border-color:var(--accent)}
+
+    .hint{font-size:12px;color:rgba(159,180,216,0.7);margin-top:6px}
+
+    .file-row{display:flex;gap:12px;align-items:center}
+    .file-preview{width:84px;height:84px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));display:flex;align-items:center;justify-content:center;border:1px dashed rgba(255,255,255,0.03);overflow:hidden}
+    .file-preview img{max-width:100%;max-height:100%;display:block}
+
+    .files-list{font-size:13px;color:var(--muted);line-height:1.3}
+
+    .actions{display:flex;gap:12px;justify-content:flex-end;grid-column:1/-1;margin-top:6px}
+    button{
+      background:var(--accent);
+      color:#02203a;
+      border:none;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer
+    }
+    button.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.04)}
+
+    /* responsive */
+    @media (max-width:720px){
+      form{grid-template-columns:1fr}
+      .file-preview{width:64px;height:64px}
+    }
+
+    /* small helper chip */
+    .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);font-size:13px;color:var(--muted)}
+
+    /* multi-select tags */
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{background:rgba(14,165,255,0.12);color:var(--accent);padding:6px 8px;border-radius:999px;font-size:13px}
+
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Member Submission</h1>
+    <p class="lead">Upload member details, images and documents. This form uses <code>multipart/form-data</code> and posts to <code>/upload</code>.</p>
+
+    <form id="memberForm" action="/upload" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="memberName">Member Name</label>
+        <input id="memberName" name="memberName" type="text" placeholder="Jane Doe" required />
+      </div>
+
+      <div>
+        <label for="collegeCode">College Code</label>
+        <input id="collegeCode" name="collegeCode" type="text" placeholder="COL123" required />
+      </div>
+
+      <div>
+        <label for="course_Roll">Course Roll</label>
+        <input id="course_Roll" name="course_Roll" type="text" placeholder="2025CS101" />
+      </div>
+
+      <div>
+        <label for="memberPost">Member Post</label>
+        <input id="memberPost" name="memberPost" type="text" placeholder="Treasurer / Designer" />
+      </div>
+
+      <div>
+        <label for="memberCode">Member Code</label>
+        <input id="memberCode" name="memberCode" type="text" placeholder="M-00123" />
+      </div>
+
+      <div>
+        <label for="passwd">Password</label>
+        <input id="passwd" name="passwd" type="password" placeholder="choose a strong password" />
+      </div>
+
+      <div class="full">
+        <label for="categories">Categories (select multiple)</label>
+        <select id="categories" name="categories" multiple size="4" class="multiselect">
+          <option value="photography">Photography</option>
+          <option value="design">Design</option>
+          <option value="development">Development</option>
+          <option value="events">Events</option>
+          <option value="research">Research</option>
+        </select>
+        <p class="hint">Hold Ctrl (Windows) / Cmd (Mac) to select multiple. Values will be submitted as multiple form keys named <code>categories</code>.</p>
+      </div>
+
+      <div class="full">
+        <label>Member Image</label>
+        <div class="file-row">
+          <div class="file-preview" id="imgPreview">PNG/JPG</div>
+          <div style="flex:1">
+            <input id="memberImageContent" name="memberImageContent" type="file" accept="image/*" />
+            <div style="height:8px"></div>
+            <label for="memberImageType" class="hint">Image type (optional)</label>
+            <select id="memberImageType" name="memberImageType">
+              <option value="auto">Auto-detect</option>
+              <option value="image/png">image/png</option>
+              <option value="image/jpeg">image/jpeg</option>
+              <option value="image/webp">image/webp</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="full">
+        <label for="documents">Documents (you can pick multiple)</label>
+        <input id="documents" name="documents" type="file" multiple />
+        <div class="files-list" id="filesList">No files chosen</div>
+        <p class="hint">All files will be uploaded using the key name <code>documents</code>. Server must accept multiple files for that field.</p>
+      </div>
+
+      <div class="actions full">
+        <button type="button" class="ghost" onclick="resetForm()">Reset</button>
+        <button type="submit">Submit Member</button>
+      </div>
+    </form>
+
+    <div style="margin-top:18px;color:rgba(159,180,216,0.6);font-size:13px">Tip: On the server, treat <code>categories</code> and <code>documents</code> as lists. For Flask, use <code>request.files.getlist('documents')</code> and <code>request.form.getlist('categories')</code>.</div>
+
+  </div>
+
+  <script>
+    const imgInput = document.getElementById('memberImageContent');
+    const imgPreview = document.getElementById('imgPreview');
+    const docsInput = document.getElementById('documents');
+    const filesList = document.getElementById('filesList');
+
+    imgInput.addEventListener('change', e => {
+      const f = e.target.files[0];
+      if(!f){ imgPreview.textContent = 'PNG/JPG'; return }
+      if(!f.type.startsWith('image/')){ imgPreview.textContent = 'Not an image'; return }
+      const url = URL.createObjectURL(f);
+      imgPreview.innerHTML = '';
+      const im = document.createElement('img'); im.src = url;
+      imgPreview.appendChild(im);
+    });
+
+    docsInput.addEventListener('change', e => {
+      const list = Array.from(e.target.files).map(f => `${f.name} (${Math.round(f.size/1024)} KB)`);
+      filesList.textContent = list.length ? list.join('\n') : 'No files chosen';
+    });
+
+    function resetForm(){
+      const form = document.getElementById('memberForm');
+      form.reset();
+      imgPreview.innerHTML = 'PNG/JPG';
+      filesList.textContent = 'No files chosen';
+    }
+  </script>
+</body>
+</html>
