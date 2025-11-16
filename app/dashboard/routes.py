@@ -5,7 +5,7 @@ from . import dashboard_bp
 from bson import Binary
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
 
 @dashboard_bp.route("/getImage/<dataBase>/<collection>/<filename>", methods=['GET'])
