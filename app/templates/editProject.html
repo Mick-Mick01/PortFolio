@@ -253,7 +253,7 @@
       </div>
 
       <div class="project-photo">
-        <img src="{{ url_for('static', filename='images/portFolio_project_Images/' + project.imageName ) }}" alt="Project Photo">
+        <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.memberImageName ) }}" alt="Project Photo">
       </div>
 
       <form id="photoForm" class="edit-form" method="POST" action="/dashboard/updateProjectPhoto/{{memberCode}}" enctype="multipart/form-data">

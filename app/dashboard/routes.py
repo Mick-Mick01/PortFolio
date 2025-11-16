@@ -2,10 +2,18 @@ from flask import *
 from . import myMongo
 import pymongo
 from . import dashboard_bp
+from bson import Binary
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
+
+@dashboard_bp.route("/getImage/<dataBase>/<collection>/<filename>", methods=['GET'])
+def get_Image(dataBase, collection, filename):
+    db = local_client[dataBase]
+    coll = db[collection]
+    Image = coll.find_one({"memberImageName":filename})
+    return Response(Image['memberImageContent'])
 
 '''
 =======================================================================================================================================================================================================
@@ -268,7 +276,7 @@ def uplaod_member(memberCode):
         collection2 = db['Members-APIKey']
         member = collection.find_one({"memberCode":memberCode})
         if member["passwd"] == my_password:
-            data = {"memberName":memberName, "collegeCode":collegeCode, "course_Roll":course_Roll, "memberPost":memberPost, "memberCode":new_memberCode, "passwd":new_passwd, "memberImageName":Image.filename, "memberImageType":Image.content_type, "categories":categories, "documents":documents }
+            data = {"memberName":memberName, "collegeCode":collegeCode, "course_Roll":course_Roll, "memberPost":memberPost, "memberCode":new_memberCode, "passwd":new_passwd, "memberImageName":Image.filename, "memberImageContent":Binary(Image.read()), "memberImageType":Image.content_type, "categories":categories, "documents":documents }
             collection.insert_one(data)
             portFolio_Member_Images(Image)
             

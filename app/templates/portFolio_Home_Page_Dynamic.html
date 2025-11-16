@@ -271,7 +271,7 @@
 <div class="banner">
   <div class="org-title" style="margin-bottom: 10vw;"> {{ member.memberName }} <br> {{ member.collegeCode }} <br> {{ member.course_Roll }} </div>
   <div>
-    <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName ) }}" alt="{{ member.memberName }}" class="my-img">
+    <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.memberImageName ) }}" alt="{{ member.memberName }}" class="my-img">
     <h1>Project Showcase</h1>
     <h3>Explore My Completed & Upcoming Projects</h3>
   </div>
@@ -279,11 +279,6 @@
 
     <!-- Navigation Bar -->
   <nav class="org-nav">
-    <!-- <button onclick="showProjectView('WebApp-Projects', '{{ member.memberCode }}')" class="project-button">WebApps</button>
-    <button onclick="showProjectView('Electronics-Projects', '{{ member.memberCode }}')" class="project-button">Electronics</button>
-    <button onclick="showProjectView('Proof-of-Concepts', '{{ member.memberCode }}')" class="project-button">Proof of Concepts</button>
-    <button onclick="showProjectView('Upcoming-Projects', '{{ member.memberCode }}')" class="project-button">Upcoming Projects</button>
-    <button onclick="showProjectView('current-study-topics', '{{ member.memberCode }}')" class="project-button">Current Study Topics</button> -->
     {% for category in categories %}
       <button onclick="showProjectView( '{{category}}', '{{ member.memberCode }}')" class="project-button">{{category}}</button>
     {% endfor %}

@@ -209,7 +209,7 @@
         <button class="edit-btn" onclick="toggleForm('photoForm')">Edit Profile Picture</button>
       </div>
       <div class="profile-photo">
-        <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName ) }}" alt="Profile Photo">
+        <img src="{{ url_for( 'dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.memberImageName ) }}" alt="Profile Photo">
       </div>
 
       <form id="photoForm" class="edit-form" method="POST" action="/dashboard/updatePhoto/{{member.memberCode}}" enctype="multipart/form-data">
