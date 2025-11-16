@@ -212,7 +212,7 @@
         <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName ) }}" alt="Profile Photo">
       </div>
 
-      <form id="photoForm" class="edit-form" method="POST" action="/updatePhoto/{{member.memberCode}}" enctype="multipart/form-data">
+      <form id="photoForm" class="edit-form" method="POST" action="/dashboard/updatePhoto/{{member.memberCode}}" enctype="multipart/form-data">
         <label for="photoUpload">Upload New Photo</label>
         <input type="file" id="photoUpload" name="photo" accept="image/*" required>
 
@@ -234,7 +234,7 @@
       </div>
       <p>Change your account password.</p>
 
-      <form id="passwordForm" class="edit-form" method="POST" action="/updatePassword/{{member.memberCode}}">
+      <form id="passwordForm" class="edit-form" method="POST" action="/dashboard/updatePassword/{{member.memberCode}}">
         <label for="newPass">New Password</label>
         <input type="text" id="newPass" name="newPassword" placeholder="Enter new password" required>
 
@@ -256,7 +256,7 @@
       </div>
       <p>Current Code: <strong>{{member.collegeCode}}</strong></p>
 
-      <form id="collegeForm" class="edit-form" method="POST" action="/updateCollegeCode/{{member.memberCode}}">
+      <form id="collegeForm" class="edit-form" method="POST" action="/dashboard/updateCollegeCode/{{member.memberCode}}">
         <label for="newCollege">New College Code</label>
         <input type="text" id="newCollege" name="collegeCode" placeholder="Enter new college code" required>
 
@@ -278,7 +278,7 @@
       </div>
       <p>Current: <strong>{{member.course_Roll}}</strong></p>
 
-      <form id="courseForm" class="edit-form" method="POST" action="/updateCourseRoll/{{member.memberCode}}">
+      <form id="courseForm" class="edit-form" method="POST" action="/dashboard/updateCourseRoll/{{member.memberCode}}">
         <label for="newCourse">New Course & Roll</label>
         <input type="text" id="newCourse" name="courseRoll" placeholder="Enter new course & roll" required>
 

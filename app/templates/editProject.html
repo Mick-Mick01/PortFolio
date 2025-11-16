@@ -198,7 +198,7 @@
   </div>
 
   <nav class="org-nav">
-    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
     <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
     <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
   </nav>
@@ -213,7 +213,7 @@
       </div>
       <p><strong>Current:</strong> {{ project.projectName }}</p>
 
-      <form id="nameForm" class="edit-form" method="POST" action="/updateProjectName/{{memberCode}}">
+      <form id="nameForm" class="edit-form" method="POST" action="/dashboard/updateProjectName/{{memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <input type="text" name="projectName" placeholder="Enter new project name" required>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -233,7 +233,7 @@
       </div>
       <p><strong>Current:</strong> {{ project.discription }}</p>
 
-      <form id="descForm" class="edit-form" method="POST" action="/updateProjectDescription/{{memberCode}}">
+      <form id="descForm" class="edit-form" method="POST" action="/dashboard/updateProjectDescription/{{memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <textarea name="projectDescription" placeholder="Enter new description" required></textarea>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -256,7 +256,7 @@
         <img src="{{ url_for('static', filename='images/portFolio_project_Images/' + project.imageName ) }}" alt="Project Photo">
       </div>
 
-      <form id="photoForm" class="edit-form" method="POST" action="/updateProjectPhoto/{{memberCode}}" enctype="multipart/form-data">
+      <form id="photoForm" class="edit-form" method="POST" action="/dashboard/updateProjectPhoto/{{memberCode}}" enctype="multipart/form-data">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <input type="file" name="projectPhoto" accept="image/*" required>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -276,7 +276,7 @@
       </div>
       <p><strong>Current:</strong> {{ project.category }}</p>
 
-      <form id="catForm" class="edit-form" method="POST" action="/updateProjectCategory/{{memberCode}}">
+      <form id="catForm" class="edit-form" method="POST" action="/dashboard/updateProjectCategory/{{memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <select name="category" id="category">
           {% for category in categories %}
@@ -301,7 +301,7 @@
         <!-- <button class="edit-btn" onclick="alert('This feature will be added soon! ')">Edit Expand View</button> -->
       </div>
 
-      <form id="expForm" class="edit-form" method="POST" action="/updateExpandView/{{memberCode}}">
+      <form id="expForm" class="edit-form" method="POST" action="/dashboard/updateExpandView/{{memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <textarea name="ExpandCode" id="Expandview" placeholder="Enter new Expand-View code" required></textarea>
         <input type="password" name="password" placeholder="Confirm password" required>

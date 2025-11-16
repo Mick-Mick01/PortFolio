@@ -5,7 +5,6 @@ def create_app():
     
     app.secret_key = "DevCrish_Debmalya"
     
-    from .portFolio import portFolio_bp
     from .client import client_bp
     from .dashboard import dashboard_bp
     

@@ -147,7 +147,7 @@
     <h2>Select a Document to Delete</h2>
     <p>Please choose the document you want to remove from the system. This action is irreversible.</p>
 {% if documents %}
-    <form method="POST" action="/deleteDocument/{{memberCode}}" class="delete-form">
+    <form method="POST" action="/dashboard/deleteDocument/{{memberCode}}" class="delete-form">
       <select name="document" required>
         <option value="">-- Select Document --</option>
         {% for document in documents %}

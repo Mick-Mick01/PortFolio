@@ -96,7 +96,7 @@
     <h1>Member Submission</h1>
     <p class="lead">Upload member details, images and documents. This form uses <code>multipart/form-data</code> and posts to <code>/upload</code>.</p>
 
-    <form id="memberForm" action="/upload" method="post" enctype="multipart/form-data">
+    <form id="memberForm" action="/dashboard/Uplaoad_Member/{{memberCode}}" method="post" enctype="multipart/form-data">
       <div>
         <label for="memberName">Member Name</label>
         <input id="memberName" name="memberName" type="text" placeholder="Jane Doe" required />
@@ -133,14 +133,11 @@
         <div class="file-row">
           <div class="file-preview" id="imgPreview">PNG/JPG</div>
           <div style="flex:1">
-            <input id="memberImageContent" name="memberImageContent" type="file" accept="image/*" />
+            <input id="memberImageContent" name="memberImage" type="file" accept="image/*" />
             <div style="height:8px"></div>
           </div>
         </div>
       </div>
-
-        <input type="text" name="categories[]" style="display: none;" required>
-        <input id="documents" style="display: none;" name="documents[]" type="file" multiple />
       
       <div>
         <label for="Api-Key">Api-Key</label>

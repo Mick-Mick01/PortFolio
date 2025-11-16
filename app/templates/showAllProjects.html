@@ -194,7 +194,7 @@ body {
   </div>
 
   <nav class="org-nav">
-    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
     <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
   </nav>
 <div class="portfolio-wrapper">
@@ -206,7 +206,7 @@ body {
         <h3>|| {{ project.category }} || <br> {{ project.projectName }}</h3>
         <img src="{{ url_for('static', filename='images/portFolio_Project_Images/' + project.imageName) }}" class="project-video" alt="" content_type="project.imageType">
         <p class="project-description"> {{ project.discription }} </p>
-        <button class="project-link" onclick="window.location.href='/editProject/{{memberCode}}/{{ project.projectCode }}' ">Edit Project</button>
+        <button class="project-link" onclick="window.location.href='/dashboard/editProject/{{memberCode}}/{{ project.projectCode }}' ">Edit Project</button>
 </div>
 
          

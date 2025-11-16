@@ -257,8 +257,8 @@ def uplaod_member(memberCode):
         new_memberCode = request.form['memberCode']
         new_passwd = request.form['passwd']
         Image = request.files.get('memberImage')
-        categories = request.form.getlist('categories[]')
-        documents = request.form.getlist('documents[]')
+        categories = list()
+        documents = list()
         my_password = request.form['my_password']
         Api_key = request.form.get("Api-Key")
         email = request.form.get('email')
@@ -274,7 +274,7 @@ def uplaod_member(memberCode):
             
             if Api_key != "":
                 data = {"email":email, "email-API":Api_key, "memberCode":new_memberCode, "memberName":memberName, "passwd":new_passwd}
-            return redirect(f'/memberDashboard/{memberCode}')
+            return redirect(f'/dashboard/memberDashboard/{memberCode}')
         else:
             return "<strong> Entered the worng password please try again !! </strong>"
     return render_template("Upload_Member.html", memberCode=memberCode)

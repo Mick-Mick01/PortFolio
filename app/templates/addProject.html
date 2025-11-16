@@ -159,21 +159,10 @@
     <button onclick="window.location.href='/Home/{{memberCode}}' " class="project-button">My Home page</button>
   </nav>
 
-  <!-- Form for entering password and go to Dashboard !! Not using now !! -->
-<!-- <section class="Dashboard-form-section">
-  <div class="openDashboard-form-style" id="my-form" style="display: none;">
-    <form action="/openDashboard/{{memberCode}}" method="post">
-      <label for="password">Enter Your password</label>
-      <input type="text" name="password" autocomplete="off" required>
-      <button type="submit">Verify</button>
-      <button type="button" style="color: orange; margin-right: 20vw; cursor: pointer; background: grey;" onclick="closeDashboardForm()">X Cancel</button>
-    </form>
-  </div>
-</section> -->
 
   <!-- FORM  -->
   <div class="editor-wrapper">
-   <form action="/addProject/{{memberCode}}" method="post" enctype="multipart/form-data">
+   <form action="/dashboard/addProject/{{memberCode}}" method="post" enctype="multipart/form-data">
         <select name="category">
           <!-- Not Fetching categories from mongoDB cause no spaces are allowed in collection names -->
            {% for category in categories %}

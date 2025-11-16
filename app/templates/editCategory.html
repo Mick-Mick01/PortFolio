@@ -227,7 +227,7 @@
           </li>
 
           <div id="delete-confirm-{{ loop.index }}" class="delete-confirm">
-            <form action="/editCategory/{{memberCode}}" method="POST" enctype="multipart/form-data">
+            <form action="/dashboard/editCategory/{{memberCode}}" method="POST" enctype="multipart/form-data">
               <input type="text" name="categoryName" value="{{category}}" style="display: none;">
               <input type="password" name="password" placeholder="Enter Password" required>
               <button type="submit" class="confirm-delete">Confirm Delete</button>
@@ -241,7 +241,7 @@
 
     <div class="add-category">
       <h3>Add Category</h3>
-      <form method="POST" action="/addCategory/{{memberCode}}">
+      <form method="POST" action="/dashboard/addCategory/{{memberCode}}">
         <input type="text" name="categoryName" placeholder="Category Name (No spaces)" required>
         <input type="password" name="password" placeholder="Password" required>
         <button type="submit" class="add-btn">Add Category</button>
