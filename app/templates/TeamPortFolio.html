@@ -159,6 +159,7 @@
     {% for member in members %}
     <div class="member-card">
       <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.memberImageName ) }}" alt={{member.memberName}}>
+      
       <div class="member-info">
         <h3>{{  member.memberName }}</h3>
         <p>{{ member.memberPost }}</p>
