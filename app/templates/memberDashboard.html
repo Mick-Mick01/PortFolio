@@ -241,7 +241,7 @@
   <nav class="org-nav">
     <button type="button" onclick="window.location.href='/Home/{{member.memberCode}}' ">Home</button>
     <button onclick="window.location.href='/TeamPortFolio' ">Team PortFolio</button>
-    <button onclick="window.location.href='/Logout_Dashboard/{{member.memberCode}}' ">Logout</button>
+    <button onclick="window.location.href='/dashboard/Logout_Dashboard/{{member.memberCode}}' ">Logout</button>
   </nav>
 
   <!-- Admin Cards -->
@@ -250,28 +250,28 @@
       <div class="admin-icon"><i class="fas fa-upload"></i></div>
       <h2>Upload New Projects</h2>
       <p>Add new project entries to the showcase, including details and media.</p>
-    <button onclick="window.location.href='/addProject/{{member.memberCode}}'" class="project-button">Add Project</button>
+    <button onclick="window.location.href='/dashboard/addProject/{{member.memberCode}}'" class="project-button">Add Project</button>
     </div>
 
     <div class="admin-card">
       <div class="admin-icon"><i class="fas fa-edit"></i></div>
       <h2>Edit Projects</h2>
       <p>Manage, update, or remove existing project listings</p>
-      <button class="project-button" onclick="window.location.href='/showMemberProjects/{{member.memberCode}}' ">Edit Projects</button>
+      <button class="project-button" onclick="window.location.href='/dashboard/showAllProjects/{{member.memberCode}}' ">Edit Projects</button>
     </div>
 
     <div class="admin-card">
       <div class="admin-icon"><i class="fas fa-user-cog"></i></div>
       <h2>Edit Profile</h2>
       <p>Update your name, bio, profile picture, and credentials.</p>
-      <button class="project-button" onclick="window.location.href='/editProfile/{{member.memberCode}}' ">Edit profile</button>
+      <button class="project-button" onclick="window.location.href='/dashboard/editProfile/{{member.memberCode}}' ">Edit profile</button>
     </div>
 
     <div class="admin-card">
       <div class="admin-icon"><i class="fas fa-users"></i></div>
       <h2>Add Document/Notes </h2>
       <p>Add Documents & Notes for your visitors to download</p>
-      <button class="project-button" onclick="window.location.href='/addDocuments/{{member.memberCode}}'">+Add</button>
+      <button class="project-button" onclick="window.location.href='/dashboard/addDocuments/{{member.memberCode}}'">+Add</button>
     </div>
 
     <div class="admin-card">
@@ -285,16 +285,24 @@
       <div class="admin-icon"><i class="fas fa-key"></i></div>
       <h2>Delete a Document</h2>
       <p>Delete an unwanted Document.</p>
-      <button class="project-button" onclick="window.location.href='/deleteDocument/{{member.memberCode}}' ">Delete</button>
+      <button class="project-button" onclick="window.location.href='/dashboard/deleteDocument/{{member.memberCode}}' ">Delete</button>
     </div>
     
     <div class="admin-card">
       <div class="admin-icon"><i class="fas fa-key"></i></div>
       <h2>Add/Remove Project Category</h2>
       <p>Add a New Project Category OR delete an Unwanted Category</p>
-      <button class="project-button" onclick="window.location.href='/editCategory/{{member.memberCode}}' ">Edit Category</button>
+      <button class="project-button" onclick="window.location.href='/dashboard/editCategory/{{member.memberCode}}' ">Edit Category</button>
     </div>
 
+    {% if member.memberCode == "DevCrishKha8721" %}
+    <div class="admin-card">
+      <div class="admin-icon"><i class="fas fa-key"></i></div>
+      <h2>Add a new Member</h2>
+      <p>Only developers can add a new member</p>
+      <button class="project-button" onclick="window.location.href='/dashboard/Uplaoad_Member/{{member.memberCode}}' ">Add Member</button>
+    </div>
+    {% endif %}
 
   </div>
 

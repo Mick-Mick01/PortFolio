@@ -127,17 +127,6 @@
         <input id="passwd" name="passwd" type="password" placeholder="choose a strong password" />
       </div>
 
-      <div class="full">
-        <label for="categories">Categories (select multiple)</label>
-        <select id="categories" name="categories" multiple size="4" class="multiselect">
-          <option value="photography">Photography</option>
-          <option value="design">Design</option>
-          <option value="development">Development</option>
-          <option value="events">Events</option>
-          <option value="research">Research</option>
-        </select>
-        <p class="hint">Hold Ctrl (Windows) / Cmd (Mac) to select multiple. Values will be submitted as multiple form keys named <code>categories</code>.</p>
-      </div>
 
       <div class="full">
         <label>Member Image</label>
@@ -146,22 +135,26 @@
           <div style="flex:1">
             <input id="memberImageContent" name="memberImageContent" type="file" accept="image/*" />
             <div style="height:8px"></div>
-            <label for="memberImageType" class="hint">Image type (optional)</label>
-            <select id="memberImageType" name="memberImageType">
-              <option value="auto">Auto-detect</option>
-              <option value="image/png">image/png</option>
-              <option value="image/jpeg">image/jpeg</option>
-              <option value="image/webp">image/webp</option>
-            </select>
           </div>
         </div>
       </div>
 
-      <div class="full">
-        <label for="documents">Documents (you can pick multiple)</label>
-        <input id="documents" name="documents" type="file" multiple />
-        <div class="files-list" id="filesList">No files chosen</div>
-        <p class="hint">All files will be uploaded using the key name <code>documents</code>. Server must accept multiple files for that field.</p>
+        <input type="text" name="categories[]" style="display: none;" required>
+        <input id="documents" style="display: none;" name="documents[]" type="file" multiple />
+      
+      <div>
+        <label for="Api-Key">Api-Key</label>
+        <input id="Api-Key" name="Api-Key" type="text" placeholder="2025CS101" />
+      </div>
+
+      <div>
+        <label for="email">Member Official Email</label>
+        <input id="email" name="email" type="text" placeholder="OFFICIAL_EMAIL@MAIL.COM" />
+      </div>
+
+      <div>
+        <label for="my_password">Password for Dev Crish(Developer)</label>
+        <input id="my_password" name="my_password" type="password" placeholder="Developer-Password" required>
       </div>
 
       <div class="actions full">

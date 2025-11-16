@@ -245,6 +245,39 @@ def addCategory(memberCode):
             return redirect(f'/editCategory/{memberCode}')
     return redirect(f'/editCategory/{memberCode}')
 
+@dashboard_bp.route('/Uplaoad_Member/<memberCode>', methods=['POST', 'GET'])
+def uplaod_member(memberCode):
+    if not session.get(f'openDashboard_{memberCode}'):
+        return "<strong>Please login first <a href='/TeamPortFolio'>Login</a> </strong>"
+    if request.method == 'POST':
+        memberName = request.form['memberName']
+        collegeCode = request.form['collegeCode']
+        course_Roll = request.form['course_Roll']
+        memberPost = request.form['memberPost']
+        new_memberCode = request.form['memberCode']
+        new_passwd = request.form['passwd']
+        Image = request.files.get('memberImage')
+        categories = request.form.getlist('categories[]')
+        documents = request.form.getlist('documents[]')
+        my_password = request.form['my_password']
+        Api_key = request.form.get("Api-Key")
+        email = request.form.get('email')
+        
+        db = local_client['PortFolio-Confidential']
+        collection = db['Members']
+        collection2 = db['Members-APIKey']
+        member = collection.find_one({"memberCode":memberCode})
+        if member["passwd"] == my_password:
+            data = {"memberName":memberName, "collegeCode":collegeCode, "course_Roll":course_Roll, "memberPost":memberPost, "memberCode":new_memberCode, "passwd":new_passwd, "memberImageName":Image.filename, "memberImageType":Image.content_type, "categories":categories, "documents":documents }
+            collection.insert_one(data)
+            portFolio_Member_Images(Image)
+            
+            if Api_key != "":
+                data = {"email":email, "email-API":Api_key, "memberCode":new_memberCode, "memberName":memberName, "passwd":new_passwd}
+            return redirect(f'/memberDashboard/{memberCode}')
+        else:
+            return "<strong> Entered the worng password please try again !! </strong>"
+    return render_template("Upload_Member.html", memberCode=memberCode)
 
 '''
 =======================================================================================================================================================================================================
