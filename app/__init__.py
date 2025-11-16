@@ -6,7 +6,11 @@ def create_app():
     app.secret_key = "DevCrish_Debmalya"
     
     from .portFolio import portFolio_bp
+    from .client import client_bp
+    from .dashboard import dashboard_bp
     
-    app.register_blueprint(portFolio_bp, url_prefix="/")
+    app.register_blueprint(client_bp, url_prefix="/")
+    app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
+    
     
     return app

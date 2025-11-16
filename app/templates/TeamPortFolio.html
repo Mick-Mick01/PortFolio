@@ -165,7 +165,7 @@
         <button class="portfolio-btn" onclick="window.location.href='/Home/{{member.memberCode}}' ">Visit Portfolio</button>
         <br>
         <br>
-        <button class="portfolio-btn" onclick="window.location.href='/memberDashboard/{{member.memberCode}}' ">Dashboard</button>
+        <button class="portfolio-btn" onclick="window.location.href='dashboard/memberDashboard/{{member.memberCode}}' ">Dashboard</button>
       </div>
     </div>
     {% endfor %}
@@ -180,7 +180,7 @@
   <!-- Form for entering password and go to Dashboard  -->
 <section class="Dashboard-form-section">
   <div class="openDashboard-form-style" id="my-form" style="display: none;">
-    <form action="{{ url_for('portFolio.openDashboardFromTeamPortfolio') }}" method="post">
+    <form action="{{ url_for('dashboard.openDashboardFromTeamPortfolio') }}" method="post">
       <label for="memberCode">Enter Your Member-Code</label>
       <input type="text" name="memberCode" required>
       <br>
