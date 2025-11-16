@@ -162,7 +162,7 @@
         <div class="doc-info">
           <h3>{{ document }}</h3>
         </div>
-        <a href="{{ url_for('dashboard.download_document', filename=document) }}" class="download-btn">Download</a>
+        <a href="{{ url_for('client.download_document', filename=document) }}" class="download-btn">Download</a>
       </div>
     {% else %}
       <p>No documents available at the moment.</p>

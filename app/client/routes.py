@@ -70,7 +70,6 @@ def download_document(filename):
     from pathlib import Path
     # Assuming your files are stored in static/documents/
     directory = Path(__file__).parent.parent / "static" / "documents"
-#    directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\documents"
     try:
         return send_from_directory(directory, filename, as_attachment=True)
     except FileNotFoundError:
