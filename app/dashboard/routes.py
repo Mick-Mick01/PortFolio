@@ -5,7 +5,7 @@ from . import dashboard_bp
 from bson import Binary
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
 
 @dashboard_bp.route("/getImage/<dataBase>/<collection>/<filename>", methods=['GET'])
@@ -121,7 +121,6 @@ def portFolio_Project_Images(image):
     from pathlib import Path
     import os
     save_directory = Path(__file__).parent.parent / "static" / "images" / "portFolio_Project_Images"
-#   save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\images\\portFolio_Project_Images"
     save_filename = image.filename
     full_save_path = os.path.join(save_directory, save_filename)
     os.makedirs(save_directory, exist_ok=True)
@@ -153,15 +152,7 @@ def uploadDocument(memberCode):
             return "Incorrect Password !!"
     return render_template('addDocuments.html', memberCode=memberCode, memberName=member['memberName'])
 
-# Store Document to app/static/documents folder 
-def storeDoc(new_file):
-    import os
-    save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\documents"
-    save_filename = new_file.filename
-    full_save_path = os.path.join(save_directory, save_filename)
-    os.makedirs(save_directory, exist_ok=True)
-    new_file.save(full_save_path)
-    
+
 def storeDoc2(new_file):
     from pathlib import Path
     folder = Path(__file__).parent.parent
@@ -245,8 +236,6 @@ def addCategory(memberCode):
     if request.method == 'POST':
         categoryName = request.form.get('categoryName')
         password = request.form.get('password')
-        if " " in categoryName:
-            return "<strong>Please do not put any spaces in category name</strong>"
         if member['passwd'] == password:
             categories.append(categoryName)
             collection.update_one({"memberCode":memberCode}, {'$set': {"categories":categories}})
@@ -487,7 +476,6 @@ def updatePhoto(memberCode):
 def portFolio_Member_Images(photo):
     from pathlib import Path
     import os
-#   save_directory = "C:\\Users\\User\\Desktop\\Bash,Flask,MongoDB,Website-PROJECTS\DEPLOYEBLE_PORTFOLIO_VERSION_2.0\\app\\static\\images\\portFolio_Member_Images"
     save_directory = Path(__file__).parent.parent / "static" / "images" / "portFolio_Member_Images"
     save_filename = photo.filename
     full_save_path = os.path.join(save_directory, save_filename)
