@@ -21,7 +21,7 @@ local_db = local_client['PortFolio']
 @client_bp.route('/', methods=['GET', 'POST']) 
 def Default():
     # return render_template("portFolio_Home_Page.html")
-    return redirect("/Home/DevCrishKha8721")
+    return redirect("/TeamPortFolio")
 
 # HOME PAGE FOR ALL THE MEMBERS
 @client_bp.route('/Home/<memberCode>')
