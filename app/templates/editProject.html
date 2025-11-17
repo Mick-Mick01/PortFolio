@@ -194,13 +194,13 @@
 
   <div class="edit-banner">
     <h1><i class="fas fa-edit"></i> Edit Project</h1>
-    <h3>Manage your project details | {{memberName}} </h3>
+    <h3>Manage your project details | {{member.memberName}} </h3>
   </div>
 
   <nav class="org-nav">
-    <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
-    <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
-    <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
+    <button onclick="window.location.href='/dashboard/memberDashboard/{{member.memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/Home/{{member.memberCode}}'">Home</button>
+    <button onclick="window.location.href='/Documents/{{member.memberCode}}'">Documents & Notes</button>
   </nav>
 
   <div class="container">
@@ -213,7 +213,7 @@
       </div>
       <p><strong>Current:</strong> {{ project.projectName }}</p>
 
-      <form id="nameForm" class="edit-form" method="POST" action="/dashboard/updateProjectName/{{memberCode}}">
+      <form id="nameForm" class="edit-form" method="POST" action="/dashboard/updateProjectName/{{member.memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <input type="text" name="projectName" placeholder="Enter new project name" required>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -233,7 +233,7 @@
       </div>
       <p><strong>Current:</strong> {{ project.discription }}</p>
 
-      <form id="descForm" class="edit-form" method="POST" action="/dashboard/updateProjectDescription/{{memberCode}}">
+      <form id="descForm" class="edit-form" method="POST" action="/dashboard/updateProjectDescription/{{member.memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <textarea name="projectDescription" placeholder="Enter new description" required></textarea>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -253,10 +253,10 @@
       </div>
 
       <div class="project-photo">
-        <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.memberImageName ) }}" alt="Project Photo">
+        <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio', collection=project.category, filename=project.imageName ) }}" alt="Project Photo">
       </div>
 
-      <form id="photoForm" class="edit-form" method="POST" action="/dashboard/updateProjectPhoto/{{memberCode}}" enctype="multipart/form-data">
+      <form id="photoForm" class="edit-form" method="POST" action="/dashboard/updateProjectPhoto/{{member.memberCode}}" enctype="multipart/form-data">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <input type="file" name="projectPhoto" accept="image/*" required>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -276,10 +276,10 @@
       </div>
       <p><strong>Current:</strong> {{ project.category }}</p>
 
-      <form id="catForm" class="edit-form" method="POST" action="/dashboard/updateProjectCategory/{{memberCode}}">
+      <form id="catForm" class="edit-form" method="POST" action="/dashboard/updateProjectCategory/{{member.memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <select name="category" id="category">
-          {% for category in categories %}
+          {% for category in member['categories'] %}
           {% if category != project.category %}
           <option value="{{category}}">{{category}}</option>
           {% endif %}
@@ -301,7 +301,7 @@
         <!-- <button class="edit-btn" onclick="alert('This feature will be added soon! ')">Edit Expand View</button> -->
       </div>
 
-      <form id="expForm" class="edit-form" method="POST" action="/dashboard/updateExpandView/{{memberCode}}">
+      <form id="expForm" class="edit-form" method="POST" action="/dashboard/updateExpandView/{{member.memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
         <textarea name="ExpandCode" id="Expandview" placeholder="Enter new Expand-View code" required></textarea>
         <input type="password" name="password" placeholder="Confirm password" required>
@@ -318,7 +318,7 @@
 
 
   <footer>
-    &copy; 2025 {{ memberName }} | Edit Project | Styled by GPT
+    &copy; 2025 {{ member.memberName }} | Edit Project | Styled by GPT
   </footer>
 
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>

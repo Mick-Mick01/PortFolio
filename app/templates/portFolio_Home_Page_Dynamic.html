@@ -313,6 +313,18 @@
   }
 </script>
 
+<script>
+    function showExpand(project_name){
+        document.getElementById(project_name).style.display = "block";
+        document.getElementById(project_name).classList.add("Expand-card");
+        document.body.classList.add(blurred);
+    }
+    function closeExpand(project_name){
+        document.getElementById(project_name).style.display = "none";
+        document.getElementById(project_name).classList.remove("Expand-card");
+        document.body.classList.remove(blurred);
+    }
+</script>
 
 <script>
 window.onpageshow = function(event) {

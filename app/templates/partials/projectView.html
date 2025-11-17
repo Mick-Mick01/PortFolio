@@ -1543,7 +1543,7 @@
 {% for project in projects %}
 <div class="project-card">
         <h3>{{ project.projectName }}</h3>
-        <img src="{{ url_for('static', filename='images/portFolio_Project_Images/' + project.imageName) }}" class="project-video" alt="" content_type="project.imageType">
+        <img src="{{ url_for( 'dashboard.get_Image', dataBase='PortFolio', collection=project.category, filename=project.imageName ) }}" class="project-video" alt="" content_type="project.imageType">
         <p class="project-description"> {{ project.discription }} </p>
         <button class="project-link" onclick="showExpand( '{{project.projectName}}' )">Expand</button>
 </div>

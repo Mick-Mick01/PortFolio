@@ -12,8 +12,8 @@ local_db = local_client['PortFolio']
 def get_Image(dataBase, collection, filename):
     db = local_client[dataBase]
     coll = db[collection]
-    Image = coll.find_one({"memberImageName":filename})
-    return Response(Image['memberImageContent'])
+    Image = coll.find_one({"imageName":filename})
+    return Response(Image['imageContent'])
 
 '''
 =======================================================================================================================================================================================================
@@ -77,7 +77,7 @@ def addProject(memberCode):
     db1 = local_client['PortFolio-Confidential']
     collection = db1['Members']
     member = collection.find_one({"memberCode":memberCode})
-    categories = member['categories']
+    categories = member["categories"]
     if request.method == 'POST':
         category = request.form.get('category')
         projectName = request.form.get('projectName')
@@ -101,7 +101,7 @@ def addProject(memberCode):
                 colection = local_db[category]
                 project = colection.find_one({"projectCode":projectCode})
                 if project:
-                    return "A project with this name already exists. Please change the name or delete the older project"
+                    return "A project with this Project-Code already exists. Please change the name & Project-Code or delete the older project"
                 
 #           checking for XSS atack on a flask Jinja-template environment
             if '{' in HTMLcode or "script" in HTMLcode or "onclick" in HTMLcode:
@@ -110,8 +110,6 @@ def addProject(memberCode):
 #           After checking for any conflicting projectNames we store the data into mongoDB
             myMongo.uploadProject(category, projectName, memberCode, projectLink, image, discription, HTMLcode, projectCode)
             
-            #After storing the data into mongoDB we store the image into static/images/portFolio_images folder
-            portFolio_Project_Images(image)
             return redirect(f'/dashboard/addProject/{memberCode}')
         else:
             return "Password error. Please try again"
@@ -206,7 +204,7 @@ def editCategory(memberCode):
         password = request.form.get('password')
         if member['passwd'] == password:
             deleteCat(categoryName, memberCode)
-            return redirect(f'/editCategory/{memberCode}')
+            return redirect(f'/dashboard/editCategory/{memberCode}')
         else:
             return "Incorrect password !! Please try Again !!."
     return render_template('editCategory.html', categories=categories, memberCode=memberCode)
@@ -239,7 +237,7 @@ def addCategory(memberCode):
         if member['passwd'] == password:
             categories.append(categoryName)
             collection.update_one({"memberCode":memberCode}, {'$set': {"categories":categories}})
-            return redirect(f'/editCategory/{memberCode}')
+            return redirect(f'/dashboard/editCategory/{memberCode}')
     return redirect(f'/editCategory/{memberCode}')
 
 @dashboard_bp.route('/Uplaoad_Member/<memberCode>', methods=['POST', 'GET'])
@@ -265,7 +263,7 @@ def uplaod_member(memberCode):
         collection2 = db['Members-APIKey']
         member = collection.find_one({"memberCode":memberCode})
         if member["passwd"] == my_password:
-            data = {"memberName":memberName, "collegeCode":collegeCode, "course_Roll":course_Roll, "memberPost":memberPost, "memberCode":new_memberCode, "passwd":new_passwd, "memberImageName":Image.filename, "memberImageContent":Binary(Image.read()), "memberImageType":Image.content_type, "categories":categories, "documents":documents }
+            data = {"memberName":memberName, "collegeCode":collegeCode, "course_Roll":course_Roll, "memberPost":memberPost, "memberCode":new_memberCode, "passwd":new_passwd, "imageName":Image.filename, "imageContent":Binary(Image.read()), "imageType":Image.content_type, "categories":categories, "documents":documents }
             collection.insert_one(data)
             portFolio_Member_Images(Image)
             
@@ -312,8 +310,8 @@ def editProject(memberCode, projectCode):
         colection = local_db[category]
         project = colection.find_one({"projectCode":projectCode})
         if project:
-            return render_template("editProject.html", memberCode=memberCode, project=project, memberName=member['memberName'], categories=categories)
-    return redirect(f'/showAllProjects/{memberCode}')
+            return render_template("editProject.html", project=project, member=member, categories=categories)
+    return redirect(f'/dashboard/showAllProjects/{memberCode}')
 
 @dashboard_bp.route('/updateProjectName/<memberCode>', methods=['POST', 'GET'])
 def updateProjectName(memberCode):
@@ -332,7 +330,7 @@ def updateProjectName(memberCode):
             for category in categories:
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"projectName":projectName}})
-            return redirect(f'/showAllProjects/{memberCode}')
+            return redirect(f'/dashboard/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 
@@ -353,7 +351,7 @@ def updateProjectDescription(memberCode):
             for category in categories:
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"discription":projectDescription}})
-            return redirect(f'/showAllProjects/{memberCode}')
+            return redirect(f'/dashboard/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 @dashboard_bp.route('/updateProjectPhoto/<memberCode>', methods=['POST', 'GET'])
@@ -375,8 +373,9 @@ def updateProjectPhoto(memberCode):
                 requiredProject = collection2.find_one({"projectCode":projectCode})
                 if requiredProject:
                     collection2.update_one({"projectCode":projectCode}, {'$set': {"imageName":projectPhoto.filename}})
-                    portFolio_Project_Images(projectPhoto)
-            return redirect(f'/showAllProjects/{memberCode}')
+                    collection2.update_one({"projectCode":projectCode}, {'$set': {"imageContent":Binary(projectPhoto.read())}})
+                    collection2.update_one({"projectCode":projectCode}, {'$set': {"imageType":projectPhoto.content_type}})
+            return redirect(f'/dashboard/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
     
 @dashboard_bp.route('/updateProjectCategory/<memberCode>', methods=['POST', 'GET'])
@@ -402,7 +401,7 @@ def updateProjectCategory(memberCode):
                     collection2.delete_one({"projectCode":projectCode})
                     db2[projectCategory].update_one({"projectCode":projectCode}, {'$set': {"category":projectCategory}})
                     break
-            return redirect(f'/showAllProjects/{memberCode}')
+            return redirect(f'/dashboard/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 
@@ -423,7 +422,7 @@ def updateExpandView(memberCode):
             for category in categories:
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"HTMLcode":Expandview}})
-            return redirect(f'/showAllProjects/{memberCode}')
+            return redirect(f'/dashboard/showAllProjects/{memberCode}')
     return redirect('/TeamPortFolio')
 
 '''
@@ -452,8 +451,8 @@ def updateName(memberCode):
         password = request.form['password']
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"memberName":memberName}})
-            return redirect(f'/editProfile/{memberCode}')
-    return redirect(f'/editProfile/{memberCode}')
+            return redirect(f'/dashboard/editProfile/{memberCode}')
+    return redirect(f'/dashboard/editProfile/{memberCode}')
 
 @dashboard_bp.route("/updatePhoto/<memberCode>", methods=['POST', 'GET'])
 def updatePhoto(memberCode):
@@ -466,12 +465,13 @@ def updatePhoto(memberCode):
         photo = request.files.get('photo')
         password = request.form['password']
         if member['passwd'] == password:
-            member = collection.update_one({"memberCode":memberCode}, {'$set': {"memberImageName":photo.filename}})
+            #Storing image of projects and members in mongoDB as Binary
+            collection.update_one({"memberCode":memberCode}, {'$set': {"imageName":photo.filename}})
+            collection.update_one({"memberCode":memberCode}, {'$set': {"imageContent":Binary(photo.read())}})
+            collection.update_one({"memberCode":memberCode}, {'$set': {"imageType":photo.content_type}})
             
-            #After storing the data into mongoDB we store the image into static/images/portFolio_images folder
-            portFolio_Member_Images(photo)
-            return redirect(f'/editProfile/{memberCode}')
-    return redirect(f'/editProfile/{memberCode}')
+            return redirect(f'/dashboard/editProfile/{memberCode}')
+    return redirect(f'/dashboard/editProfile/{memberCode}')
 
 def portFolio_Member_Images(photo):
     from pathlib import Path
@@ -494,8 +494,8 @@ def updatePassword(memberCode):
         password = request.form['password']
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"passwd":newPassword}})
-            return redirect(f'/editProfile/{memberCode}')
-    return redirect(f'/editProfile/{memberCode}')
+            return redirect(f'/dashboard/editProfile/{memberCode}')
+    return redirect(f'/dashboard/editProfile/{memberCode}')
 
 
 @dashboard_bp.route("/updateCollegeCode/<memberCode>", methods=['POST', 'GET'])
@@ -510,8 +510,8 @@ def updateCollegeCode(memberCode):
         password = request.form['password']
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"collegeCode":collegeCode}})
-            return redirect(f'/editProfile/{memberCode}')
-    return redirect(f'/editProfile/{memberCode}')
+            return redirect(f'/dashboard/editProfile/{memberCode}')
+    return redirect(f'/dashboard/editProfile/{memberCode}')
 
 @dashboard_bp.route("/updateCourseRoll/<memberCode>", methods=['POST', 'GET'])
 def updateCourseRoll(memberCode):
@@ -525,5 +525,5 @@ def updateCourseRoll(memberCode):
         password = request.form['password']
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"course_Roll":courseRoll}})
-            return redirect(f'/editProfile/{memberCode}')
-    return redirect(f'/editProfile/{memberCode}')
+            return redirect(f'/dashboard/editProfile/{memberCode}')
+    return redirect(f'/dashboard/editProfile/{memberCode}')
