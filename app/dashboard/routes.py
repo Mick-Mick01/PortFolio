@@ -5,7 +5,7 @@ from . import dashboard_bp
 from bson import Binary
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
 
 @dashboard_bp.route("/getImage/<dataBase>/<collection>/<filename>", methods=['GET'])
@@ -332,6 +332,8 @@ def updateProjectName(memberCode):
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"projectName":projectName}})
             return redirect(f'/dashboard/showAllProjects/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect('/TeamPortFolio')
 
 
@@ -353,6 +355,8 @@ def updateProjectDescription(memberCode):
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"discription":projectDescription}})
             return redirect(f'/dashboard/showAllProjects/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect('/TeamPortFolio')
 
 @dashboard_bp.route('/updateProjectPhoto/<memberCode>', methods=['POST', 'GET'])
@@ -377,6 +381,8 @@ def updateProjectPhoto(memberCode):
                     collection2.update_one({"projectCode":projectCode}, {'$set': {"imageContent":Binary(projectPhoto.read())}})
                     collection2.update_one({"projectCode":projectCode}, {'$set': {"imageType":projectPhoto.content_type}})
             return redirect(f'/dashboard/showAllProjects/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect('/TeamPortFolio')
     
 @dashboard_bp.route('/updateProjectCategory/<memberCode>', methods=['POST', 'GET'])
@@ -403,6 +409,8 @@ def updateProjectCategory(memberCode):
                     db2[projectCategory].update_one({"projectCode":projectCode}, {'$set': {"category":projectCategory}})
                     break
             return redirect(f'/dashboard/showAllProjects/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect('/TeamPortFolio')
 
 
@@ -424,6 +432,8 @@ def updateExpandView(memberCode):
                 collection2 = db2[category]
                 collection2.update_one({"projectCode":projectCode}, {'$set': {"HTMLcode":Expandview}})
             return redirect(f'/dashboard/showAllProjects/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect('/TeamPortFolio')
 
 '''
@@ -451,7 +461,7 @@ def updateName(memberCode):
         memberName = request.form['memberName']
         password = request.form['password']
         if member['passwd'] == password:
-            member = collection.update_one({"memberCode":memberCode}, {'$set': {"memberName":memberName}})
+            collection.update_one({"memberCode":memberCode}, {'$set': {"memberName":memberName}})
             return redirect(f'/dashboard/editProfile/{memberCode}')
         else:
             return f"Incorrect Password, {member['memberName']} please try again !!"

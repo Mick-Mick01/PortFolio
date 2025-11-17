@@ -235,7 +235,7 @@
 
       <form id="descForm" class="edit-form" method="POST" action="/dashboard/updateProjectDescription/{{member.memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
-        <textarea name="projectDescription" placeholder="Enter new description" required></textarea>
+        <textarea name="projectDescription" placeholder="Enter your project discription here" required></textarea>
         <input type="password" name="password" placeholder="Confirm password" required>
         <div class="action-buttons">
           <button type="submit" class="save-btn">Save</button>
@@ -303,7 +303,7 @@
 
       <form id="expForm" class="edit-form" method="POST" action="/dashboard/updateExpandView/{{member.memberCode}}">
         <input type="text" name="projectCode" style="display: none;" value="{{project.projectCode}}" required>
-        <textarea name="ExpandCode" id="Expandview" placeholder="Enter new Expand-View code" required></textarea>
+        <textarea name="ExpandCode" id="Expandview" value="{{project.HTMLcode}}" required></textarea>
         <input type="password" name="password" placeholder="Confirm password" required>
         <div class="action-buttons">
           <button type="submit" class="save-btn">Save</button>
