@@ -143,7 +143,7 @@
 
   <!-- Banner -->
   <div class="banner">
-    <img src="{{ url_for('static', filename='images/portFolio_Member_Images/' + member.memberImageName ) }}" alt="{{ member.memberName }}">
+    <img src="{{ url_for( 'dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.imageName ) }}" alt="{{ member.memberName }}">
     <h1>{{ member.memberName }} | Documents & Notes</h1>
     <h3>Download my files and notes below</h3>
   </div>
@@ -165,7 +165,7 @@
         <a href="{{ url_for('client.download_document', filename=document) }}" class="download-btn">Download</a>
       </div>
     {% else %}
-      <p>No documents available at the moment.</p>
+      <p>No documents uploaded by {{member.memberName}} Yet !! </p>
     {% endfor %}
   </div>
 

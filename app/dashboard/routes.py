@@ -80,6 +80,8 @@ def addProject(memberCode):
     categories = member["categories"]
     if request.method == 'POST':
         category = request.form.get('category')
+        if category == "" or category == None:
+            return "Add a valid project-category"
         projectName = request.form.get('projectName')
         passwd = request.form.get('memberPassCode')
         Code = memberCode
@@ -265,7 +267,6 @@ def uplaod_member(memberCode):
         if member["passwd"] == my_password:
             data = {"memberName":memberName, "collegeCode":collegeCode, "course_Roll":course_Roll, "memberPost":memberPost, "memberCode":new_memberCode, "passwd":new_passwd, "imageName":Image.filename, "imageContent":Binary(Image.read()), "imageType":Image.content_type, "categories":categories, "documents":documents }
             collection.insert_one(data)
-            portFolio_Member_Images(Image)
             
             if Api_key != "":
                 data = {"email":email, "email-API":Api_key, "memberCode":new_memberCode, "memberName":memberName, "passwd":new_passwd}

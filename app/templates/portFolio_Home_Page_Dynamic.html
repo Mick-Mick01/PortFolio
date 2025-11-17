@@ -271,7 +271,7 @@
 <div class="banner">
   <div class="org-title" style="margin-bottom: 10vw;"> {{ member.memberName }} <br> {{ member.collegeCode }} <br> {{ member.course_Roll }} </div>
   <div>
-    <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.memberImageName ) }}" alt="{{ member.memberName }}" class="my-img">
+    <img src="{{ url_for('dashboard.get_Image', dataBase='PortFolio-Confidential', collection='Members', filename=member.imageName ) }}" alt="{{ member.memberName }}" class="my-img">
     <h1>Project Showcase</h1>
     <h3>Explore My Completed & Upcoming Projects</h3>
   </div>

@@ -163,7 +163,7 @@
   <!-- FORM  -->
   <div class="editor-wrapper">
    <form action="/dashboard/addProject/{{memberCode}}" method="post" enctype="multipart/form-data">
-        <select name="category">
+        <select name="category" required>
           <!-- Not Fetching categories from mongoDB cause no spaces are allowed in collection names -->
            {% for category in categories %}
                 <option value="{{ category }}">{{ category }}</option>
