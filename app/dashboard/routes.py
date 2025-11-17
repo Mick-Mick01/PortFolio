@@ -453,6 +453,8 @@ def updateName(memberCode):
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"memberName":memberName}})
             return redirect(f'/dashboard/editProfile/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect(f'/dashboard/editProfile/{memberCode}')
 
 @dashboard_bp.route("/updatePhoto/<memberCode>", methods=['POST', 'GET'])
@@ -470,8 +472,10 @@ def updatePhoto(memberCode):
             collection.update_one({"memberCode":memberCode}, {'$set': {"imageName":photo.filename}})
             collection.update_one({"memberCode":memberCode}, {'$set': {"imageContent":Binary(photo.read())}})
             collection.update_one({"memberCode":memberCode}, {'$set': {"imageType":photo.content_type}})
-            
             return redirect(f'/dashboard/editProfile/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
+            
     return redirect(f'/dashboard/editProfile/{memberCode}')
 
 def portFolio_Member_Images(photo):
@@ -496,6 +500,8 @@ def updatePassword(memberCode):
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"passwd":newPassword}})
             return redirect(f'/dashboard/editProfile/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect(f'/dashboard/editProfile/{memberCode}')
 
 
@@ -512,6 +518,8 @@ def updateCollegeCode(memberCode):
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"collegeCode":collegeCode}})
             return redirect(f'/dashboard/editProfile/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect(f'/dashboard/editProfile/{memberCode}')
 
 @dashboard_bp.route("/updateCourseRoll/<memberCode>", methods=['POST', 'GET'])
@@ -527,4 +535,6 @@ def updateCourseRoll(memberCode):
         if member['passwd'] == password:
             member = collection.update_one({"memberCode":memberCode}, {'$set': {"course_Roll":courseRoll}})
             return redirect(f'/dashboard/editProfile/{memberCode}')
+        else:
+            return f"Incorrect Password, {member['memberName']} please try again !!"
     return redirect(f'/dashboard/editProfile/{memberCode}')
