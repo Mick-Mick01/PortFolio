@@ -25,7 +25,6 @@ fs = gridfs.GridFS(fsDB)
 # THIS ROUTE IS NECESSARY AFTER SENDING TUNNELING LINK PEOPLE CAN SEE MY PORTFOLIO
 @client_bp.route('/', methods=['GET', 'POST']) 
 def Default():
-    # return render_template("portFolio_Home_Page.html")
     return redirect("/TeamPortFolio")
 
 # HOME PAGE FOR ALL THE MEMBERS
@@ -72,8 +71,8 @@ def Documents(memberCode):
 # ROUTE FOR THE DOWNLOAD-DOCUMENT PAGE USNG WHICH THE DOCUMENT WILL ACTUALLY DOWNLAOD. ELSE IT WILL JUST OPEN THE DOCUMENT IN THE BROWSER
 @client_bp.route('/Documents/download/<filename>')
 def download_document(filename):
-    file = fs.find({"filename":filename}).next()
     try:
+        file = fs.find({"filename":filename}).next()
         return send_file(
             BytesIO(file.read()),
             as_attachment=True,

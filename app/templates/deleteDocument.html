@@ -138,7 +138,7 @@
   </div>
 
   <nav class="org-nav">
-    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
     <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
     <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
   </nav>
@@ -154,7 +154,7 @@
         <option value="{{ document }}">{{ document }}</option>
         {% endfor %}
       </select>
-      <input type="password" name="password" autocomplete="off" placeholder="Password" required>
+      <input type="password" name="password" placeholder="Password" required>
       <button type="submit" class="delete-button"><i class="fas fa-trash"></i> Delete</button>
     </form>
 {% else %}

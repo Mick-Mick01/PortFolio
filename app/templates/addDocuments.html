@@ -138,18 +138,18 @@
   </div>
 
   <nav class="org-nav">
-    <button onclick="window.location.href='/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
     <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
     <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
   </nav>
-
+<SPan>Your disk space: {{total_space_occupied}} MB occupied till now. <br>You can store upto <strong>50MB</strong> </SPan>
   <div class="upload-container">
     <h2>Upload a New Document</h2>
     <p>Select a document to upload and confirm your password for security.</p>
 
     <form method="POST" action="/dashboard/addDocuments/{{memberCode}}" enctype="multipart/form-data" class="upload-form">
       <input type="password" name="password" placeholder="Password" required>
-      <input type="file" name="document" accept=".pdf,.docx,.txt,.png,.jpg,.jpeg" required>
+      <input type="file" name="document" required>
       <button type="submit" class="upload-button"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
     </form>
   </div>

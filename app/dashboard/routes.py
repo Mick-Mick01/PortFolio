@@ -120,14 +120,6 @@ def addProject(memberCode):
             return "Password error. Please try again"
     return render_template('addProject.html', categories=categories, memberCode=memberCode, memberName=member['memberName'])
 
-def portFolio_Project_Images(image):
-    from pathlib import Path
-    import os
-    save_directory = Path(__file__).parent.parent / "static" / "images" / "portFolio_Project_Images"
-    save_filename = image.filename
-    full_save_path = os.path.join(save_directory, save_filename)
-    os.makedirs(save_directory, exist_ok=True)
-    image.save(str(full_save_path))
 
 # ROUTE TO ADD NEW-DOCUMENT TO YOUR PORTFOLIO
 @dashboard_bp.route('/addDocuments/<memberCode>', methods=['POST', 'GET'])
@@ -146,29 +138,46 @@ def uploadDocument(memberCode):
             if new_doc.filename == document:
                 return f"\"{new_doc.filename}\" already exists !! If you want to add a Newer version <strong>please delete </strong> the older one."
         if member['passwd'] == passwd:
+            if total_space_occupied(memberCode) > 40.00: # Return False if total_space >= 50
+                return "You exeded your limit to upload files. Every Member gets <strong>50MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
+            else:
+                check_total_space_occupied(new_doc, memberCode)
+                if not fs.find_one({"filename":new_doc.filename}):
+                    file_size = round((len(new_doc.read())/1024)/1024, 2)
+                    return f"File not saved. You are exceding your limit to upload files by this upload. <br> Every Member gets <strong>50MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
             documents.append(new_doc.filename)
             collection.update_one({"memberCode":memberCode}, {"$set": {"documents":documents}})
             
-            store_to_gridfs(new_doc)
-            return redirect(f'dashboard/addDocuments/{memberCode}')
+            store_to_gridfs(new_doc, memberCode)
+            return redirect(f'/dashboard/addDocuments/{memberCode}')
         else:
             return "Incorrect Password !!"
-    return render_template('addDocuments.html', memberCode=memberCode, memberName=member['memberName'])
+    space = total_space_occupied(memberCode)
+    space_occupied = round(space, 3)
+    return render_template('addDocuments.html', memberCode=memberCode, memberName=member['memberName'], total_space_occupied=space_occupied)
 
+#The file is first saved into mongoDB and then the total space is calculated. We cannot use len(file.read()) initially as it empties the stream. And I don't want to implement a tough to understand code right now.
+def check_total_space_occupied(new_file, memberCode):
+    file_id = fs.put(new_file, filename=new_file.filename, content_type=new_file.content_type, memberCode=memberCode)
+    files = fs.find({"memberCode":memberCode})
+    total_space_occupied = 0
+    for file in files:
+        total_space_occupied += ((file.length)/1024)/1024
+    if total_space_occupied >= 40.00:
+        current_file_id = fs.find_one({"filename":new_file.filename})
+        fs.delete(current_file_id._id)
 
-def storeDoc2(new_file):
-    #THIS FUNCTION STORES DOCs INTO DISC WHICH WE DO NOT HAVE ON A FREE ACCOUNT
-    from pathlib import Path
-    folder = Path(__file__).parent.parent
-    location = folder / "static" / "documents"
-    location.mkdir(parents=True, exist_ok=True)
-    full_save_path = location / new_file.filename
-    new_file.save(str(full_save_path))
-    
-def store_to_gridfs(new_file):
-    
+def total_space_occupied(memberCode):
+    files = fs.find({"memberCode":memberCode})
+    total_space_occupied = 0
+    for file in files:
+        total_space_occupied += file.length
+    space = (total_space_occupied/1024)/1024
+    return space
+
+def store_to_gridfs(new_file, memberCode):
     #getting a file_id and storing that into the documents name. But that is not needed hence the user cannot upload the same named file more than once. So we can remote the term 'file_id' variable
-    file_id = fs.put(new_file, filename=new_file.filename, size=new_file.content_length, content_type=new_file.content_type)
+    file_id = fs.put(new_file, filename=new_file.filename, content_type=new_file.content_type, memberCode=memberCode)
 
 # ROUTE TO DELETE A DOCUMENT
 @dashboard_bp.route('/deleteDocument/<memberCode>', methods=['POST', 'GET'])
@@ -184,7 +193,7 @@ def deleteDocument(memberCode):
         passwd = request.form['password']
         if member['passwd'] == passwd:
             deleteDoc(document, memberCode)
-            return redirect(f'/deleteDocument/{memberCode}')
+            return redirect(f'/dashboard/deleteDocument/{memberCode}')
         else:
             return "Incorrect password !!"
     return render_template("deleteDocument.html", documents=documents, memberCode=memberCode, memberName=member['memberName'])
@@ -195,6 +204,7 @@ def deleteDoc(documentName, memberCode):
     member = collection.find_one({"memberCode":memberCode})
     documents = member['documents']
     new_documents_list = list()
+    # We need to create a new list without the documentName
     for document in documents:
         if document == documentName:
             continue
@@ -202,9 +212,9 @@ def deleteDoc(documentName, memberCode):
     collection.update_one({"memberCode":memberCode}, {'$set': {"documents":new_documents_list}})
     
     #Deleting from gridFS
-    files = fs.find({"filename":document})
+    files = fs.find({"filename":documentName})
     for file in files:
-        fs.delete(file['_id'])  #Delete all files with the same filename. Hence we have only one file with the same name it only deletes one file. But still I want to take all the files and run a loop. To be safe in the future as I scale and want to have more options.
+        fs.delete(file._id)  #Delete all files with the same filename. Hence we have only one file with the same name it only deletes one file. But still I want to take all the files and run a loop. To be safe in the future as I scale and want to have more options.
     
 # ROUTE TO EDIT CATEGORIES
 @dashboard_bp.route('/editCategory/<memberCode>', methods=['POST', 'GET'])
@@ -254,7 +264,7 @@ def addCategory(memberCode):
             categories.append(categoryName)
             collection.update_one({"memberCode":memberCode}, {'$set': {"categories":categories}})
             return redirect(f'/dashboard/editCategory/{memberCode}')
-    return redirect(f'/editCategory/{memberCode}')
+    return redirect(f'/dashboard/editCategory/{memberCode}')
 
 @dashboard_bp.route('/Uplaoad_Member/<memberCode>', methods=['POST', 'GET'])
 def uplaod_member(memberCode):
