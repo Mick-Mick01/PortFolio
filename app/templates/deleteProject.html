@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Project Categories | Admin Panel</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png') }}" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      margin: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    /* Banner */
+    .admin-banner {
+      background: radial-gradient(circle at 20% 20%, #1d3557 0%, #0b1a33 80%);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .admin-banner h1 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      margin: 0.5rem 0;
+      letter-spacing: 1px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .admin-banner h1 i {
+      color: #ffb703;
+      font-size: 1.6rem;
+    }
+
+    /* Navbar */
+    .org-nav {
+      background: #457b9d;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .org-nav button {
+      color: white;
+      background: #457b9d;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .org-nav button:hover {
+      background: #1d3557;
+    }
+
+    /* Container */
+    .category-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 3rem auto;
+      background: white;
+      border-radius: 12px;
+      border: 1px solid #1d3557;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      padding: 2rem;
+    }
+
+    .category-container h2 {
+      color: #1d3557;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Category List */
+    .category-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 2rem 0;
+    }
+
+    .category-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8f9fa;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+
+    .category-name {
+      font-weight: 500;
+      color: #1d3557;
+    }
+
+    .delete-btn {
+      background: #e63946;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .delete-btn:hover {
+      background: #b5171e;
+    }
+
+    /* Hidden delete confirmation */
+    .delete-confirm {
+      display: none;
+      margin-top: 8px;
+      padding-left: 1rem;
+      border-left: 3px solid #e63946;
+    }
+
+    .delete-confirm input {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 8px;
+    }
+
+    .confirm-delete {
+      background: #e63946;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .confirm-delete:hover {
+      background: #b5171e;
+    }
+
+    /* Add Category Form */
+    .add-category {
+      border-top: 2px solid #1d3557;
+      padding-top: 2rem;
+    }
+
+    .add-category h3 {
+      text-align: center;
+      color: #1d3557;
+      margin-bottom: 1rem;
+    }
+
+    .add-category form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .add-category input {
+      width: 80%;
+      max-width: 400px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .add-btn {
+      background: #457b9d;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .add-btn:hover {
+      background: #1d3557;
+    }
+
+    footer {
+      background: #1d3557;
+      color: white;
+      text-align: center;
+      padding: 15px 10px;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Banner -->
+  <div class="admin-banner">
+    <div class="admin-banner-content">
+      <h1><i class="fas fa-folder-tree"></i> Manage Project Categories</h1>
+      <h3>Add or remove project categories</h3>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="org-nav">
+    <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
+    <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
+  </nav>
+
+  <!-- Category Container -->
+  <div class="category-container">
+    <h2>Existing Categories</h2>
+
+    <ul class="category-list">
+      {% if all_projects %}
+        {% for project in all_projects %}
+          <li class="category-item">
+            <span class="category-name">{{project.projectName}} | {{ project.category }}</span>
+            <button class="delete-btn" onclick="toggleDelete('{{ loop.index }}')"><i class="fas fa-trash"></i> Delete</button>
+          </li>
+
+          <div id="delete-confirm-{{ loop.index }}" class="delete-confirm">
+            <form action="/dashboard/deleteProject/{{memberCode}}" method="POST" enctype="multipart/form-data">
+              <input type="text" name="category" value="{{project.category}}" style="display: none;">
+              <input type="text" name="projectCode" value="{{project.projectCode}}" style="display: none;">
+              <input type="password" name="password" placeholder="Enter Password" required>
+              <button type="submit" class="confirm-delete">Confirm Delete</button>
+            </form>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p style="text-align:center; color:#777;">No categories found.</p>
+      {% endif %}
+    </ul>
+
+
+  </div>
+
+  <footer>
+    &copy; 2025 {{ memberName }} | Manage Categories Page
+  </footer>
+
+  <script>
+    function toggleDelete(index) {
+      const section = document.getElementById(`delete-confirm-${index}`);
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
