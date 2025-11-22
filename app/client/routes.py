@@ -3,14 +3,19 @@ import pymongo
 from . import client_bp
 import smtplib
 from email.mime.text import MIMEText
+import gridfs
+from io import BytesIO  #For Return send_file()
+
 
 #For sending automated emails
 smtp_host = 'smtp.zoho.in'
 smtp_port = 465
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
+fsDB = local_client["PortFolio-Confidential"]
+fs = gridfs.GridFS(fsDB)
 
 '''
 =======================================================================================================================================================================================================
@@ -67,11 +72,14 @@ def Documents(memberCode):
 # ROUTE FOR THE DOWNLOAD-DOCUMENT PAGE USNG WHICH THE DOCUMENT WILL ACTUALLY DOWNLAOD. ELSE IT WILL JUST OPEN THE DOCUMENT IN THE BROWSER
 @client_bp.route('/Documents/download/<filename>')
 def download_document(filename):
-    from pathlib import Path
-    # Assuming your files are stored in static/documents/
-    directory = Path(__file__).parent.parent / "static" / "documents"
+    file = fs.find({"filename":filename}).next()
     try:
-        return send_from_directory(directory, filename, as_attachment=True)
+        return send_file(
+            BytesIO(file.read()),
+            as_attachment=True,
+            download_name=file.filename,   # Flask ≥2.0 uses download_name
+            mimetype="application/octet-stream"
+                         )
     except FileNotFoundError:
         abort(404)
 

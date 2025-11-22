@@ -3,10 +3,13 @@ from . import myMongo
 import pymongo
 from . import dashboard_bp
 from bson import Binary
+import gridfs #To store DOCs and give users for download through Return send_files()
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
+fsDB = local_client["PortFolio-Confidential"]
+fs = gridfs.GridFS(fsDB)
 
 @dashboard_bp.route("/getImage/<dataBase>/<collection>/<filename>", methods=['GET'])
 def get_Image(dataBase, collection, filename):
@@ -146,20 +149,26 @@ def uploadDocument(memberCode):
             documents.append(new_doc.filename)
             collection.update_one({"memberCode":memberCode}, {"$set": {"documents":documents}})
             
-            storeDoc2(new_doc)
-            return redirect(f'/addDocuments/{memberCode}')
+            store_to_gridfs(new_doc)
+            return redirect(f'dashboard/addDocuments/{memberCode}')
         else:
             return "Incorrect Password !!"
     return render_template('addDocuments.html', memberCode=memberCode, memberName=member['memberName'])
 
 
 def storeDoc2(new_file):
+    #THIS FUNCTION STORES DOCs INTO DISC WHICH WE DO NOT HAVE ON A FREE ACCOUNT
     from pathlib import Path
     folder = Path(__file__).parent.parent
     location = folder / "static" / "documents"
     location.mkdir(parents=True, exist_ok=True)
     full_save_path = location / new_file.filename
     new_file.save(str(full_save_path))
+    
+def store_to_gridfs(new_file):
+    
+    #getting a file_id and storing that into the documents name. But that is not needed hence the user cannot upload the same named file more than once. So we can remote the term 'file_id' variable
+    file_id = fs.put(new_file, filename=new_file.filename, size=new_file.content_length, content_type=new_file.content_type)
 
 # ROUTE TO DELETE A DOCUMENT
 @dashboard_bp.route('/deleteDocument/<memberCode>', methods=['POST', 'GET'])
@@ -191,6 +200,11 @@ def deleteDoc(documentName, memberCode):
             continue
         new_documents_list.append(document)
     collection.update_one({"memberCode":memberCode}, {'$set': {"documents":new_documents_list}})
+    
+    #Deleting from gridFS
+    files = fs.find({"filename":document})
+    for file in files:
+        fs.delete(file['_id'])  #Delete all files with the same filename. Hence we have only one file with the same name it only deletes one file. But still I want to take all the files and run a loop. To be safe in the future as I scale and want to have more options.
     
 # ROUTE TO EDIT CATEGORIES
 @dashboard_bp.route('/editCategory/<memberCode>', methods=['POST', 'GET'])
