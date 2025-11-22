@@ -104,8 +104,9 @@ def addProject(memberCode):
             categories = member['categories']
             for cat in categories:
                 colection = local_db[cat]
-                project = colection.find_one({"projectCode":projectCode})
-                if project:
+                project1 = colection.find_one({"projectCode":projectCode})
+                project2 = colection.find_one({"projectName":projectName})
+                if project1 or project2:
                     return "A project with this Project-Code already exists. Please change the name & Project-Code or delete the older project"
                 
 #           checking for XSS atack on a flask Jinja-template environment
@@ -120,6 +121,27 @@ def addProject(memberCode):
             return "Password error. Please try again"
     return render_template('addProject.html', categories=categories, memberCode=memberCode, memberName=member['memberName'])
 
+@dashboard_bp.route('/deleteProject/<memberCode>', methods=['POST', 'GET'])
+def deleteProject(memberCode):
+    if not session.get(f'openDashboard_{memberCode}'):
+        return "<strong>Please login first <a href='/TeamPortFolio'>Login</a> </strong>"
+    #Getting the categories cause I need to show all categories to the user
+    member = local_client['PortFolio-Confidential']['Members'].find_one({"memberCode":memberCode})
+    categories = member['categories']
+    all_projects = list()
+    for category in categories:
+        projects = list(local_client['PortFolio'][category].find({"memberCode":memberCode}))
+        for project in projects:
+            all_projects.append(project)
+    if request.method == 'POST':
+        projectCode = request.form.get("projectCode")
+        category = request.form.get("category")
+        passwd = request.form.get("password")
+        if member['passwd'] == passwd:
+            collection = local_db[category]
+            collection.delete_one({"projectCode":projectCode})
+            return redirect(url_for('dashboard.deleteProject', memberCode=memberCode))
+    return render_template("deleteProject.html", all_projects=all_projects, memberCode=memberCode)
 
 # ROUTE TO ADD NEW-DOCUMENT TO YOUR PORTFOLIO
 @dashboard_bp.route('/addDocuments/<memberCode>', methods=['POST', 'GET'])
