@@ -102,8 +102,8 @@ def addProject(memberCode):
         
 #           checking for conflicting projectCode. Each project will have its own projectCode
             categories = member['categories']
-            for category in categories:
-                colection = local_db[category]
+            for cat in categories:
+                colection = local_db[cat]
                 project = colection.find_one({"projectCode":projectCode})
                 if project:
                     return "A project with this Project-Code already exists. Please change the name & Project-Code or delete the older project"
