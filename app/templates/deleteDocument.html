@@ -151,7 +151,7 @@
       <select name="document" required>
         <option value="">-- Select Document --</option>
         {% for document in documents %}
-        <option value="{{ document }}">{{ document }}</option>
+        <option value="{{ document.filename }}">{{ document.filename }}</option>
         {% endfor %}
       </select>
       <input type="password" name="password" placeholder="Password" required>

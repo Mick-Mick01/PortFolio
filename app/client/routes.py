@@ -63,7 +63,7 @@ def Documents(memberCode):
     collection = db1['Members']
     member = collection.find_one({"memberCode":memberCode})
     if member:
-        documents = member['documents']
+        documents = fs.find({"memberCode":memberCode})
         return render_template("downloadDocuments.html", member=member, documents=documents, memberName=member['memberName'], as_attachment=True)
     else:
         return "Member did not uplaod any document"
