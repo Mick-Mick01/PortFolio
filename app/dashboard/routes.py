@@ -6,7 +6,7 @@ from bson import Binary
 import gridfs #To store DOCs and give users for download through Return send_files()
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
 fs = gridfs.GridFS(fsDB)
@@ -165,12 +165,10 @@ def uploadDocument(memberCode):
             else:
                 check_total_space_occupied(new_doc, memberCode)
                 if not fs.find_one({"filename":new_doc.filename}):
-                    file_size = round((len(new_doc.read())/1024)/1024, 2)
-                    return f"File not saved. You are exceding your limit to upload files by this upload. <br> Every Member gets <strong>50MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
+                    return "File not saved. You are exceding your limit to upload files by this upload. <br> Every Member gets <strong>50MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
             documents.append(new_doc.filename)
             collection.update_one({"memberCode":memberCode}, {"$set": {"documents":documents}})
             
-            store_to_gridfs(new_doc, memberCode)
             return redirect(f'/dashboard/addDocuments/{memberCode}')
         else:
             return "Incorrect Password !!"
@@ -196,10 +194,6 @@ def total_space_occupied(memberCode):
         total_space_occupied += file.length
     space = (total_space_occupied/1024)/1024
     return space
-
-def store_to_gridfs(new_file, memberCode):
-    #getting a file_id and storing that into the documents name. But that is not needed hence the user cannot upload the same named file more than once. So we can remote the term 'file_id' variable
-    file_id = fs.put(new_file, filename=new_file.filename, content_type=new_file.content_type, memberCode=memberCode)
 
 # ROUTE TO DELETE A DOCUMENT
 @dashboard_bp.route('/deleteDocument/<memberCode>', methods=['POST', 'GET'])

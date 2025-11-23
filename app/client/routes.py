@@ -12,7 +12,7 @@ smtp_host = 'smtp.zoho.in'
 smtp_port = 465
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
 fs = gridfs.GridFS(fsDB)
@@ -63,7 +63,7 @@ def Documents(memberCode):
     collection = db1['Members']
     member = collection.find_one({"memberCode":memberCode})
     if member:
-        documents = member['documents']
+        documents = fs.find({"memberCode":memberCode})
         return render_template("downloadDocuments.html", member=member, documents=documents, memberName=member['memberName'], as_attachment=True)
     else:
         return "Member did not uplaod any document"

@@ -160,9 +160,9 @@
     {% for document in documents %}
       <div class="doc-card">
         <div class="doc-info">
-          <h3>{{ document }}</h3>
+          <h3>{{ document.filename }}</h3>
         </div>
-        <a href="{{ url_for('client.download_document', filename=document) }}" class="download-btn">Download</a>
+        <a href="{{ url_for('client.download_document', filename=document.filename) }}" class="download-btn">Download</a>
       </div>
     {% else %}
       <p>No documents uploaded by {{member.memberName}} Yet !! </p>
@@ -171,7 +171,7 @@
 
   <!-- Footer -->
   <footer>
-    &copy; 2025 {{ memberName }} | Developed by Dev Crish Kha | Styled by GPT
+    &copy; 2025 {{ member.memberName }} | Developed by Dev Crish Kha | Styled by GPT
   </footer>
 
 </body>
