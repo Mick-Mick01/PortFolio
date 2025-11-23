@@ -165,7 +165,7 @@
         <a href="{{ url_for('client.download_document', filename=document.filename) }}" class="download-btn">Download</a>
       </div>
     {% else %}
-      <p>No documents uploaded by {{member.memberName}} Yet !! </p>
+      <p>No documents uploaded by <strong>{{member.memberName}}</strong> Yet !! </p>
     {% endfor %}
   </div>
 

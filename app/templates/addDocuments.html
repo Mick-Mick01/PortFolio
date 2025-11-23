@@ -142,7 +142,12 @@
     <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
     <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
   </nav>
-<SPan>Your disk space: {{total_space_occupied}} MB occupied till now. <br>You can store upto <strong>50MB</strong> </SPan>
+  {% if not memberCode == "DevCrishKha8721" %}
+<SPan>Your disk space: {{total_space_occupied}} MB occupied till now. <br>You can store upto <strong>40MB</strong> </SPan>
+  {% elif memberCode == "DevCrishKha8721" %}
+  <SPan>Your disk space: {{total_space_occupied}} MB occupied till now. <br>Developer <strong>{{memberName}}</strong> can store <strong>as much he wants.</strong> </SPan>
+  {% endif %}
+  
   <div class="upload-container">
     <h2>Upload a New Document</h2>
     <p>Select a document to upload and confirm your password for security.</p>

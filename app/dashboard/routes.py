@@ -6,7 +6,7 @@ from bson import Binary
 import gridfs #To store DOCs and give users for download through Return send_files()
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
 fs = gridfs.GridFS(fsDB)
@@ -23,20 +23,7 @@ def get_Image(dataBase, collection, filename):
                                                     DASHBOARD FUNCTIONALITY
 =======================================================================================================================================================================================================
 '''
-# ROUTE TO CHECK THE PASSWORD AND LET A USER ENTER YOUR DASHBAORD
-@dashboard_bp.route('/openDashboard/<memberCode>', methods=['GET', 'POST'])
-def openDashboard(memberCode):
-    if request.method == 'POST':
-        passwd = request.form.get("password")
-        db1 = local_client['PortFolio-Confidential']
-        collection = db1['Members']
-        member = collection.find_one({"memberCode":memberCode})
-        if member['passwd'] == passwd:
-            session[f'openDashboard_{memberCode}'] = True
-            return redirect(f'/dashboard/memberDashboard/{memberCode}')
-        else:
-            return "Incorrect Password. Please try again."
-    return "Method not allowed !! Error Code 408"
+
 
 # ROUTE TO CHECK THE MEMBERCODE & PASSWORD AND LET A USER ENTER YOUR DASHBAORD
 @dashboard_bp.route('/openDashboardFromTeamPortfolio', methods=['POST', 'GET'])
@@ -48,6 +35,8 @@ def openDashboardFromTeamPortfolio():
         db1 = local_client['PortFolio-Confidential']
         collection = db1['Members']
         member = collection.find_one({"memberCode":memberCode})
+        if not member:
+            return "<h3><strong>Incorrect Member-Code or Password. Please try again.</strong></h3>"
         if member['passwd'] == passwd:
             session[f'openDashboard_{memberCode}'] = True
             return redirect(f'/dashboard/memberDashboard/{memberCode}')
@@ -151,23 +140,23 @@ def uploadDocument(memberCode):
     db1 = local_client['PortFolio-Confidential']
     collection = db1['Members']
     member = collection.find_one({"memberCode":memberCode})
-    documents = member['documents']
     if request.method == 'POST':
-        passwd = request.form.get('password')
+        passwd = request.form['password']
         new_doc = request.files.get('document')
         #checking for conflicting documents
-        for document in documents:
-            if new_doc.filename == document:
+        # file = fs.find_one({"filename":new_doc.filename}) Cannot do this, as multiple members can have file of same name. So if DevCrishKha uploaded a file, Debmalya will not be able to upload that same file cause it will show this file already exists
+        files = fs.find({"memberCode":memberCode})
+        for file in files:
+            if file.filename == new_doc.filename :
                 return f"\"{new_doc.filename}\" already exists !! If you want to add a Newer version <strong>please delete </strong> the older one."
         if member['passwd'] == passwd:
-            if total_space_occupied(memberCode) > 40.00: # Return False if total_space >= 50
+            if total_space_occupied(memberCode) > 40.00 and memberCode != "DevCrishKha8721": # Return False if total_space >= 50
                 return "You exeded your limit to upload files. Every Member gets <strong>50MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
             else:
-                check_total_space_occupied(new_doc, memberCode)
-                if not fs.find_one({"filename":new_doc.filename}):
-                    return "File not saved. You are exceding your limit to upload files by this upload. <br> Every Member gets <strong>50MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
-            documents.append(new_doc.filename)
-            collection.update_one({"memberCode":memberCode}, {"$set": {"documents":documents}})
+                file_size = check_total_space_occupied(new_doc, memberCode)
+                file2 = fs.find_one({"filename":new_doc.filename})
+                if not file2:
+                    return f"File not saved. File which you are uploading right now is {round(file_size, 2)}MB which exceeds your limit to upload files by this upload. <br> Every Member gets <strong>40MB</strong> of storage. Contact the Developer(@ 8240892958) to upgrade your plan."
             
             return redirect(f'/dashboard/addDocuments/{memberCode}')
         else:
@@ -181,11 +170,14 @@ def check_total_space_occupied(new_file, memberCode):
     file_id = fs.put(new_file, filename=new_file.filename, content_type=new_file.content_type, memberCode=memberCode)
     files = fs.find({"memberCode":memberCode})
     total_space_occupied = 0
+    # Getting the size of the file currently uploaded before its deleted
+    current_uploading_file_size = (((fs.find_one({"filename":new_file.filename})).length)/1024)/1024
     for file in files:
         total_space_occupied += ((file.length)/1024)/1024
-    if total_space_occupied >= 40.00:
+    if total_space_occupied >= 40.00  and memberCode != "DevCrishKha8721":
         current_file_id = fs.find_one({"filename":new_file.filename})
         fs.delete(current_file_id._id)
+        return current_uploading_file_size
 
 def total_space_occupied(memberCode):
     files = fs.find({"memberCode":memberCode})
@@ -203,30 +195,18 @@ def deleteDocument(memberCode):
     db1 = local_client['PortFolio-Confidential']
     collection = db1['Members']
     member = collection.find_one({"memberCode":memberCode})
-    documents = member['documents']
+    documents = fs.find({"memberCode":memberCode})
     if request.method == 'POST':
         document = request.form['document']
         passwd = request.form['password']
         if member['passwd'] == passwd:
-            deleteDoc(document, memberCode)
+            deleteDoc(document)
             return redirect(f'/dashboard/deleteDocument/{memberCode}')
         else:
             return "Incorrect password !!"
     return render_template("deleteDocument.html", documents=documents, memberCode=memberCode, memberName=member['memberName'])
 
-def deleteDoc(documentName, memberCode):
-    db1 = local_client['PortFolio-Confidential']
-    collection = db1['Members']
-    member = collection.find_one({"memberCode":memberCode})
-    documents = member['documents']
-    new_documents_list = list()
-    # We need to create a new list without the documentName
-    for document in documents:
-        if document == documentName:
-            continue
-        new_documents_list.append(document)
-    collection.update_one({"memberCode":memberCode}, {'$set': {"documents":new_documents_list}})
-    
+def deleteDoc(documentName):
     #Deleting from gridFS
     files = fs.find({"filename":documentName})
     for file in files:
