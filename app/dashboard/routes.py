@@ -6,8 +6,8 @@ from bson import Binary
 import gridfs #To store DOCs and give users for download through Return send_files()
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-# local_client = pymongo.MongoClient(Atlas_string1)
-local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient(Atlas_string1)
+# local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
 fs = gridfs.GridFS(fsDB)
