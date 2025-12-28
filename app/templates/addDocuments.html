@@ -44,7 +44,7 @@
       color: #ffb703;
       font-size: 1.6rem;
     }
-
+    /* Navbar */
     .org-nav {
       background: #457b9d;
       display: flex;
@@ -52,19 +52,29 @@
       flex-wrap: wrap;
     }
 
+    .org-nav a {
+      color: white;
+      text-decoration: none;
+      padding: 12px 20px;
+      display: block;
+      transition: background 0.3s;
+    }
+
+    .org-nav a:hover {
+      background: #1d3557;
+    }
     .org-nav button {
       color: white;
       background: #457b9d;
+      text-decoration: none;
       padding: 12px 20px;
-      border: none;
-      cursor: pointer;
+      display: block;
       transition: background 0.3s;
     }
 
     .org-nav button:hover {
       background: #1d3557;
     }
-
     .upload-container {
       width: 90%;
       max-width: 700px;
@@ -139,7 +149,6 @@
 
   <nav class="org-nav">
     <button onclick="window.location.href='/dashboard/memberDashboard/{{memberCode}}'">Back to Dashboard</button>
-    <button onclick="window.location.href='/Home/{{memberCode}}'">Home</button>
     <button onclick="window.location.href='/Documents/{{memberCode}}'">Documents & Notes</button>
   </nav>
   {% if not memberCode == "DevCrishKha8721" %}
