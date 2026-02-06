@@ -116,6 +116,10 @@ def ReachMe(memberCode):
         emailID = member['email']
         key_name = f"{memberCode}_gmail_api_key"
         API_key = os.getenv(key_name)
+        print("memberCode:", memberCode)
+        print("key_name:", key_name)
+        print("direct:", os.getenv("DevCrishKha8721_gmail_api_key"))
+        print("dynamic:", os.getenv(key_name))
 
 
         # Email body
