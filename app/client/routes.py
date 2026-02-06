@@ -104,37 +104,37 @@ def ReachMe(memberCode):
         collection = db['visitorInfo']
         collection.insert_one(data)
 
-        # Get member email + key
-        db1 = local_client['PortFolio-Confidential']
-        collection = db1['Members-APIKey']
-        member = collection.find_one({"memberCode": memberCode})
+        # # Get member email + key
+        # db1 = local_client['PortFolio-Confidential']
+        # collection = db1['Members-APIKey']
+        # member = collection.find_one({"memberCode": memberCode})
 
-        if not member:
-            member = collection.find_one({"memberCode": "DevCrishKha8721"})
-            memberCode = "DevCrishKha8721"
+        # if not member:
+        #     member = collection.find_one({"memberCode": "DevCrishKha8721"})
+        #     memberCode = "DevCrishKha8721"
 
-        emailID = member['email']
-        key_name = f"{memberCode}_gmail_api_key"
-        API_key = os.getenv(key_name)
-        print("memberCode:", memberCode)
-        print("key_name:", key_name)
-        print("direct:", os.getenv("DevCrishKha8721_gmail_api_key"))
-        print("dynamic:", os.getenv(key_name))
+        # emailID = member['email']
+        # key_name = f"{memberCode}_gmail_api_key"
+        # API_key = os.getenv(key_name)
+        # print("memberCode:", memberCode)
+        # print("key_name:", key_name)
+        # print("direct:", os.getenv("DevCrishKha8721_gmail_api_key"))
+        # print("dynamic:", os.getenv(key_name))
 
 
-        # Email body
-        emailBody = f''' <body><div style="max-width: 600px;margin: 0 auto;font-family: 'Segoe UI', sans-serif;color: #333;" ><div style="display: flex;background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);align-items: center;justify-content: center;padding: 2rem;text-align: center;color: #333;font-family: 'Segoe UI', sans-serif;border-radius: 8px;"><h1 style="margin: 0;font-size: 1.8rem;">Thank You for Reaching Me Out 🤗</h1></div><div style="background: #ffffff;border-radius: 8px;padding: 1.5rem;margin-top: 1rem;box-shadow: 0 2px 6px rgba(0,0,0,0.1);line-height: 1.6;"><p>Hi, <strong>{ visitorName }</strong>,</p><p>Thank you for getting in touch! I’ve received your message and noted your details:</p><ul><li><strong>Email:</strong> { visitorEmail }</li><li><strong>Mobile:</strong> { mobile }</li></ul><p>I’ll get back to you as soon as possible. Meanwhile, wish you have a wonderful day 🌸</p><p>Your Sincerely,<br><strong>{ member['memberName'] }</strong></p></div></div></body>'''
+        # # Email body
+        # emailBody = f''' <body><div style="max-width: 600px;margin: 0 auto;font-family: 'Segoe UI', sans-serif;color: #333;" ><div style="display: flex;background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);align-items: center;justify-content: center;padding: 2rem;text-align: center;color: #333;font-family: 'Segoe UI', sans-serif;border-radius: 8px;"><h1 style="margin: 0;font-size: 1.8rem;">Thank You for Reaching Me Out 🤗</h1></div><div style="background: #ffffff;border-radius: 8px;padding: 1.5rem;margin-top: 1rem;box-shadow: 0 2px 6px rgba(0,0,0,0.1);line-height: 1.6;"><p>Hi, <strong>{ visitorName }</strong>,</p><p>Thank you for getting in touch! I’ve received your message and noted your details:</p><ul><li><strong>Email:</strong> { visitorEmail }</li><li><strong>Mobile:</strong> { mobile }</li></ul><p>I’ll get back to you as soon as possible. Meanwhile, wish you have a wonderful day 🌸</p><p>Your Sincerely,<br><strong>{ member['memberName'] }</strong></p></div></div></body>'''
 
-        msg = MIMEText(emailBody, 'html', 'utf-8')
-        msg['Subject'] = "Thank You For Reaching Me Out 🤗"
-        msg['From'] = emailID
-        msg['To'] = visitorEmail
+        # msg = MIMEText(emailBody, 'html', 'utf-8')
+        # msg['Subject'] = "Thank You For Reaching Me Out 🤗"
+        # msg['From'] = emailID
+        # msg['To'] = visitorEmail
 
-        # Send email
-        with smtplib.SMTP(smtp_host, smtp_port) as server:
-            server.starttls()   # TLS
-            server.login(emailID, API_key)
-            server.send_message(msg)
+        # # Send email
+        # with smtplib.SMTP(smtp_host, smtp_port) as server:
+        #     server.starttls()   # TLS
+        #     server.login(emailID, API_key)
+        #     server.send_message(msg)
 
         return redirect(f'/ReachMe/{memberCode}')
         
