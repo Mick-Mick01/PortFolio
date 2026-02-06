@@ -82,9 +82,7 @@ def download_document(filename):
 # USERS CAN REACH ME & GET AN AUTOMATED EMAIL    
 @client_bp.route('/ReachMe/<memberCode>', methods=['POST', 'GET'])
 def ReachMe(memberCode):
-    from dotenv import load_dotenv
     import os
-    load_dotenv(dotenv_path='../.env')
     
     #For sending automated emails
     smtp_host = 'smtp.gmail.com'
