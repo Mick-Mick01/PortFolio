@@ -7,13 +7,9 @@ import gridfs
 from io import BytesIO  #For Return send_file()
 
 
-#For sending automated emails
-smtp_host = 'smtp.zoho.in'
-smtp_port = 465
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
 local_client = pymongo.MongoClient(Atlas_string1)
-# local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
 fs = gridfs.GridFS(fsDB)
@@ -86,6 +82,14 @@ def download_document(filename):
 # USERS CAN REACH ME & GET AN AUTOMATED EMAIL    
 @client_bp.route('/ReachMe/<memberCode>', methods=['POST', 'GET'])
 def ReachMe(memberCode):
+    from dotenv import load_dotenv
+    import os
+    load_dotenv(dotenv_path='../.env')
+    
+    #For sending automated emails
+    smtp_host = 'smtp.gmail.com'
+    smtp_port = 587
+
     if request.method == 'POST':
         visitorName = request.form.get('name')
         visitorEmail = request.form.get('email')
@@ -104,12 +108,12 @@ def ReachMe(memberCode):
         member = collection.find_one({"memberCode":memberCode})
         if member:
             emailID = member['email']
-            API_key = member['email-API']
+            API_key = os.getenv(f"{memberCode}_gmail_api_key")
             
         else:
             member = collection.find_one({"memberCode":"DevCrishKha8721"})
             emailID = member['email']
-            API_key = member['email-API']
+            API_key = os.getenv(f"{memberCode}_gmail_api_key")
             #composing the HTML emailBody 
             emailBody = f''' <body><div style="max-width: 600px;margin: 0 auto;font-family: 'Segoe UI', sans-serif;color: #333;" ><div style="display: flex;background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);align-items: center;justify-content: center;padding: 2rem;text-align: center;color: #333;font-family: 'Segoe UI', sans-serif;border-radius: 8px;"><h1 style="margin: 0;font-size: 1.8rem;">Thank You for Reaching Me Out 🤗</h1></div><div style="background: #ffffff;border-radius: 8px;padding: 1.5rem;margin-top: 1rem;box-shadow: 0 2px 6px rgba(0,0,0,0.1);line-height: 1.6;"><p>Hi, <strong>{ visitorName }</strong>,</p><p>Thank you for getting in touch! I’ve received your message and noted your details:</p><ul><li><strong>Email:</strong> { visitorEmail }</li><li><strong>Mobile:</strong> { mobile }</li></ul><p>I’ll get back to you as soon as possible.  Meanwhile, wish you have a wonderful day 🌸</p><p>Your Sincerely,<br><strong>{ member['memberName'] }</strong></p></div></div></body>'''
             msg = MIMEText(emailBody, 'html', 'utf-8')
