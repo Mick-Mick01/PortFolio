@@ -3,10 +3,9 @@ import pymongo
 from . import client_bp
 import gridfs
 from io import BytesIO  #For Return send_file()
+import os
 
-
-
-Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
+Atlas_string1 = os.getenv("Atlas_string1")
 # local_client = pymongo.MongoClient("mongodb://localhost:27017")
 local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
@@ -115,7 +114,9 @@ def ReachMe(memberCode):
             memberCode = "DevCrishKha8721"
 
         emailID = member['email']
-        API_key = os.getenv(f"{memberCode}_gmail_api_key")
+        key_name = f"{memberCode}_gmail_api_key"
+        API_key = os.getenv(key_name)
+
 
         # Email body
         emailBody = f''' <body><div style="max-width: 600px;margin: 0 auto;font-family: 'Segoe UI', sans-serif;color: #333;" ><div style="display: flex;background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);align-items: center;justify-content: center;padding: 2rem;text-align: center;color: #333;font-family: 'Segoe UI', sans-serif;border-radius: 8px;"><h1 style="margin: 0;font-size: 1.8rem;">Thank You for Reaching Me Out 🤗</h1></div><div style="background: #ffffff;border-radius: 8px;padding: 1.5rem;margin-top: 1rem;box-shadow: 0 2px 6px rgba(0,0,0,0.1);line-height: 1.6;"><p>Hi, <strong>{ visitorName }</strong>,</p><p>Thank you for getting in touch! I’ve received your message and noted your details:</p><ul><li><strong>Email:</strong> { visitorEmail }</li><li><strong>Mobile:</strong> { mobile }</li></ul><p>I’ll get back to you as soon as possible. Meanwhile, wish you have a wonderful day 🌸</p><p>Your Sincerely,<br><strong>{ member['memberName'] }</strong></p></div></div></body>'''

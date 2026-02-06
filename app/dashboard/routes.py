@@ -4,8 +4,9 @@ import pymongo
 from . import dashboard_bp
 from bson import Binary
 import gridfs #To store DOCs and give users for download through Return send_files()
+import os
 
-Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
+Atlas_string1 = os.getenv("Atlas_string1")
 local_client = pymongo.MongoClient(Atlas_string1)
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
