@@ -1,15 +1,14 @@
 from flask import *
 import pymongo
 from . import client_bp
-import smtplib
-from email.mime.text import MIMEText
 import gridfs
 from io import BytesIO  #For Return send_file()
 
 
 
 Atlas_string1 = "mongodb+srv://dev3kha7_8721:YWzwlBcc4swtZEqN@1stcluster.ldsbsgi.mongodb.net/"
-local_client = pymongo.MongoClient(Atlas_string1)
+# local_client = pymongo.MongoClient("mongodb://localhost:27017")
+local_client = pymongo.MongoClient("Atlas_string1")
 local_db = local_client['PortFolio']
 fsDB = local_client["PortFolio-Confidential"]
 fs = gridfs.GridFS(fsDB)
@@ -83,45 +82,55 @@ def download_document(filename):
 @client_bp.route('/ReachMe/<memberCode>', methods=['POST', 'GET'])
 def ReachMe(memberCode):
     import os
-    
-    #For sending automated emails
+    import smtplib
+    from email.mime.text import MIMEText
+
     smtp_host = 'smtp.gmail.com'
-    smtp_port = 587
+    smtp_port = 587  # TLS
 
     if request.method == 'POST':
         visitorName = request.form.get('name')
         visitorEmail = request.form.get('email')
         mobile = request.form.get('mobile')
         message = request.form.get('message')
+
         data = {
-            "visitorName":visitorName, "visitorEmail":visitorEmail, "mobile":mobile, "message":message 
+            "visitorName": visitorName,
+            "visitorEmail": visitorEmail,
+            "mobile": mobile,
+            "message": message 
         }
+
         db = local_client['PortFolio-Confidential']
         collection = db['visitorInfo']
         collection.insert_one(data)
-    
-        #After storing visitor's data into DB. We need the emailID & Key of the member to send an automated email
+
+        # Get member email + key
         db1 = local_client['PortFolio-Confidential']
         collection = db1['Members-APIKey']
-        member = collection.find_one({"memberCode":memberCode})
-        if member:
-            emailID = member['email']
-            API_key = os.getenv(f"{memberCode}_gmail_api_key")
-            
-        else:
-            member = collection.find_one({"memberCode":"DevCrishKha8721"})
-            emailID = member['email']
-            API_key = os.getenv(f"{memberCode}_gmail_api_key")
-            #composing the HTML emailBody 
-            emailBody = f''' <body><div style="max-width: 600px;margin: 0 auto;font-family: 'Segoe UI', sans-serif;color: #333;" ><div style="display: flex;background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);align-items: center;justify-content: center;padding: 2rem;text-align: center;color: #333;font-family: 'Segoe UI', sans-serif;border-radius: 8px;"><h1 style="margin: 0;font-size: 1.8rem;">Thank You for Reaching Me Out 🤗</h1></div><div style="background: #ffffff;border-radius: 8px;padding: 1.5rem;margin-top: 1rem;box-shadow: 0 2px 6px rgba(0,0,0,0.1);line-height: 1.6;"><p>Hi, <strong>{ visitorName }</strong>,</p><p>Thank you for getting in touch! I’ve received your message and noted your details:</p><ul><li><strong>Email:</strong> { visitorEmail }</li><li><strong>Mobile:</strong> { mobile }</li></ul><p>I’ll get back to you as soon as possible.  Meanwhile, wish you have a wonderful day 🌸</p><p>Your Sincerely,<br><strong>{ member['memberName'] }</strong></p></div></div></body>'''
-            msg = MIMEText(emailBody, 'html', 'utf-8')
-            msg['Subject'] = "ThankYou For Reaching Me Out 🤗"
-            msg['From'] = emailID
-            msg['To'] = visitorEmail
-            
-            with smtplib.SMTP_SSL(smtp_host, smtp_port) as server:
-                server.login(emailID, API_key)
-                server.send_message(msg)
-            return redirect(f'/ReachMe/{memberCode}')
+        member = collection.find_one({"memberCode": memberCode})
+
+        if not member:
+            member = collection.find_one({"memberCode": "DevCrishKha8721"})
+            memberCode = "DevCrishKha8721"
+
+        emailID = member['email']
+        API_key = os.getenv(f"{memberCode}_gmail_api_key")
+
+        # Email body
+        emailBody = f''' <body><div style="max-width: 600px;margin: 0 auto;font-family: 'Segoe UI', sans-serif;color: #333;" ><div style="display: flex;background: linear-gradient(135deg, #ff9933 0%, #ffffff 50%, #138808 100%);align-items: center;justify-content: center;padding: 2rem;text-align: center;color: #333;font-family: 'Segoe UI', sans-serif;border-radius: 8px;"><h1 style="margin: 0;font-size: 1.8rem;">Thank You for Reaching Me Out 🤗</h1></div><div style="background: #ffffff;border-radius: 8px;padding: 1.5rem;margin-top: 1rem;box-shadow: 0 2px 6px rgba(0,0,0,0.1);line-height: 1.6;"><p>Hi, <strong>{ visitorName }</strong>,</p><p>Thank you for getting in touch! I’ve received your message and noted your details:</p><ul><li><strong>Email:</strong> { visitorEmail }</li><li><strong>Mobile:</strong> { mobile }</li></ul><p>I’ll get back to you as soon as possible. Meanwhile, wish you have a wonderful day 🌸</p><p>Your Well-Wishser,<br><strong>{ member['memberName'] }</strong></p></div></div></body>'''
+
+        msg = MIMEText(emailBody, 'html', 'utf-8')
+        msg['Subject'] = "Thank You For Reaching Me Out 🤗"
+        msg['From'] = emailID
+        msg['To'] = visitorEmail
+
+        # Send email
+        with smtplib.SMTP(smtp_host, smtp_port) as server:
+            server.starttls()   # TLS
+            server.login(emailID, API_key)
+            server.send_message(msg)
+
+        return redirect(f'/ReachMe/{memberCode}')
         
     return render_template('ReachMe.html', memberCode=memberCode)
