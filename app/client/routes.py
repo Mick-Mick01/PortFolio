@@ -10,6 +10,7 @@ import os
 from threading import Thread
 
 # load_dotenv()
+# load_dotenv(dotenv_path='../.env')
 
 Atlas_string1 = os.getenv("Atlas_string1")
 local_client = pymongo.MongoClient(Atlas_string1)
@@ -86,7 +87,6 @@ def download_document(filename):
 # USERS CAN REACH ME & GET AN AUTOMATED EMAIL    
 @client_bp.route('/ReachMe/<memberCode>', methods=['POST', 'GET'])
 def ReachMe(memberCode):
-    load_dotenv(dotenv_path='../.env')
     
     #For sending automated emails
     smtp_host = 'smtp.gmail.com'
