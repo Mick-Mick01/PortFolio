@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reach Me | Dev Crish Kha</title>
   <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/Tricolour.png') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <style>
     body {
       margin: 0;
@@ -107,7 +108,7 @@
       background: #457b9d;
     }
 
-    .project-button{
+    .project-button {
       background: #457b9d;
       color: white;
       padding: 10px 12px;
@@ -118,6 +119,7 @@
       margin-top: 0px;
       margin-right: 5px;
     }
+
     .project-button:hover {
       background: #1d3557;
     }
@@ -146,25 +148,113 @@
       }
     }
   </style>
+  <style>
+    /* Core Modal Styling */
+    .modal {
+      border: none;
+      border-radius: 12px;
+      padding: 0;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 90%;
+      /* Responsive default for mobile */
+      max-width: 450px;
+      /* Maximum width on desktop */
+      background: #ffffff;
+    }
+
+    /* Native Backdrop for Blurring the Rest of the Page */
+    .modal::backdrop {
+      background: rgba(0, 0, 0, 0.4);
+      /* Dull, dark overlay */
+      backdrop-filter: blur(8px);
+      /* Blur effect */
+    }
+
+    /* Interior Content Styling */
+    .modal-content {
+      padding: 32px 24px;
+      text-align: center;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .success-icon {
+      background-color: #e6f7ed;
+      color: #1f9347;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 16px auto;
+    }
+
+    .modal h2 {
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+      font-size: 22px;
+    }
+
+    .modal p {
+      color: #666666;
+      font-size: 15px;
+      line-height: 1.5;
+      margin: 0 0 24px 0;
+    }
+
+    .close-btn {
+      background-color: #1f9347;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      /* Easy to tap on mobile */
+      transition: background-color 0.2s;
+    }
+
+    .close-btn:hover {
+      background-color: #176f34;
+    }
+
+    /* Media Queries for Large Screens */
+    @media (min-width: 768px) {
+      .modal-content {
+        padding: 40px;
+        /* More breathing room on desktop */
+      }
+
+      .close-btn {
+        width: auto;
+        /* Inline button layout on larger screens */
+        min-width: 120px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<!-- Top Center Buttons -->
-<div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; text-align: center;">
-  <button onclick="location.href='/Home/{{memberCode}}'" 
-          style="margin: 0 10px; padding: 8px 16px; background: #1d3557; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
-    Home
-  </button>
-  <button onclick="location.href='/TeamPortFolio'" 
-          style="margin: 0 10px; padding: 8px 16px; background: #1d3557; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
-    Team PortFolio
-  </button>
-</div>
+  <!-- Top Center Buttons -->
+  <div style="position: fixed; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; text-align: center;">
+    <button onclick="location.href='/Home/{{memberCode}}'"
+      style="margin: 0 10px; padding: 8px 16px; background: #1d3557; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+      Home
+    </button>
+    <button onclick="location.href='/TeamPortFolio'"
+      style="margin: 0 10px; padding: 8px 16px; background: #1d3557; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+      Team PortFolio
+    </button>
+  </div>
 
   <div class="banner">
     <h1>Reach Me</h1>
     <h3>Drop your details below — I’ll get back to you soon.</h3>
 
-    <form class="contact-form" action="/ReachMe/{{memberCode}}" method="POST">
+    <form class="contact-form" id="myForm" action="/ReachMe/{{memberCode}}" method="POST">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" placeholder="Your name" required>
 
@@ -177,13 +267,64 @@
       <label for="message">Message</label>
       <textarea id="message" name="message" placeholder="Hi, I’d like to connect..." required></textarea>
 
-      <button type="submit" class="submit-btn">Send</button>
+      <button type="submit" id="submit-btn" class="submit-btn">Send</button>
     </form>
+
+    <dialog id="successModal" class="modal">
+      <div class="modal-content">
+        <div class="success-icon">✓</div>
+        <h2>Submission Successful!</h2>
+        <p>Thank you for reaching out. Your details are saved suce</p>
+        <button id="closeModalBtn" class="close-btn">Close</button>
+      </div>
+    </dialog>
+
 
     <footer>
       &copy; 2025 Dev Crish Kha | Developed by Dev Crish Kha | Styled by GPT
     </footer>
   </div>
 
+  <script>
+
+    // Reusable delay helper
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    const form = document.getElementById('myForm');
+    const modal = document.getElementById('successModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const submitBtn = document.getElementById("submit-btn");
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      submitBtn.innerHTML = 'Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form)  // Built-in class provided by the browser
+        });
+
+        form.reset();
+        modal.showModal();
+
+      } catch (error) {
+        console.error('Submission failed:', error);
+        alert('Could not submit the form. Please check your connection.');
+      }
+
+      submitBtn.innerHTML = 'Send';
+      submitBtn.disabled = false;
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modal.close();
+    });
+
+  </script>
+
 </body>
+
 </html>

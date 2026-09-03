@@ -1,139 +1,156 @@
 
 <style>
-  
-    .blurred {
-      filter: blur(8px);
-      overflow: hidden; /* optional: prevent background scroll */
-    }
+/* Utility */
+.blurred {
+  filter: blur(5px);
+  pointer-events: none;
+}
 
-    /* Portfolio Styles (your existing code) */
-  .portfolio-wrapper {
-    position: relative;
-    width: 90%;
-    max-width: 1200px;
-    overflow: hidden;
-    margin: 30px auto; /* add spacing below banner */
-  }
+/* Portfolio wrapper */
+.portfolio-wrapper {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  overflow: hidden;
+}
 
-  .portfolio-container {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    justify-content: center;
-    gap: 15px;
-    padding: 10px;
-  }
+/* Horizontal container */
+.portfolio-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  padding: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
 
-  .portfolio-container::-webkit-scrollbar {
-    display: none;
-  }
+.portfolio-container::-webkit-scrollbar {
+  display: none;
+}
 
-  .project-card {
-    min-width: 250px;
-    max-width: 250px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-shrink: 0;
-  }
+/* Project cards */
+.project-card {
+  flex: 0 0 250px;        /* single source of truth */
+  max-width: 300px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    .project-card {
-      flex: 1 1 250px; /* makes them responsive, min width 250px */
-      max-width: 300px;
-    }
-    
-  .project-card h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    text-align: center;
-  }
+.project-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  text-align: center;
+}
 
-  .project-video {
-    width: 100%;
-    border-radius: 8px;
-    margin: 8px 0;
-  }
+.project-video {
+  width: 100%;
+  border-radius: 8px;
+  margin: 8px 0;
+}
 
-  .project-description {
-    font-size: 0.85rem;
-    text-align: center;
-    margin-bottom: 10px;
-    white-space: pre-wrap;   /* ✅ keeps line breaks but allows wrapping */
-    word-wrap: break-word;   /* ✅ avoids long words pushing outside */
-  }
+.project-description {
+  font-size: 0.85rem;
+  text-align: center;
+  margin-bottom: 10px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 
-  .project-link {
-    background: #007BFF;
-    color: white;
-    text-decoration: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background 0.3s;
-  }
+/* Links */
+.project-link {
+  background: #007BFF;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
 
-  .project-link:hover {
-    background: #0056b3;
-  }
+.project-link:hover {
+  background: #0056b3;
+}
 
-  .scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    padding: 10px 14px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    z-index: 10;
-  }
+/* Scroll buttons */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 10;
+}
 
-  .scroll-btn:hover {
-    background: rgba(0, 0, 0, 0.8);
-  }
+.scroll-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
 
-  .scroll-left {
-    left: 10px;
-  }
+.scroll-left { left: 10px; }
+.scroll-right { right: 10px; }
 
-  .scroll-right {
-    right: 10px;
-  }
+/* Background blur */
+.blur-background {
+  position: absolute;
+  inset: 0;
+  background: url('https://picsum.photos/800/600') center / cover no-repeat;
+  filter: blur(8px);
+  z-index: -1;
+}
 
-  .blur-background{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    background: url('https://picsum.photos/800/600') no-repeat center center;
-    background-size: cover;
-    /* Blur the whole background */
-    filter: blur(8px);
-  }
-
-  .Expand-card{
+/* Expanded card */
+.Expand-card {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white; /* solid color: no transparency */
+  background: white;
   padding: 2rem 3rem;
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  max-height: 80vh;
   width: 60%;
-  overflow-y: auto; /* scroll inside card */
-  z-index: 1; /* ensure it stays above the blur */
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+/* 📱 Phones */
+@media (max-width: 480px) {
+  .portfolio-wrapper {
+    width: 100%;
   }
 
-  @media (max-width: 480px) {
+  .portfolio-container {
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 10px 6px;
   }
+
+  .project-card {
+    flex: 0 0 85%;
+    max-width: 85%;
+  }
+
+  .scroll-btn {
+    display: none; /* swipe instead */
+  }
+
+  .Expand-card {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}
 </style>
+
 
 <style>
   /*

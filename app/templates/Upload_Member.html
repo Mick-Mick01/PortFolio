@@ -92,6 +92,7 @@
   </style>
 </head>
 <body>
+
   <div class="card">
     <h1>Member Submission</h1>
     <p class="lead">Upload member details, images and documents. This form uses <code>multipart/form-data</code> and posts to <code>/upload</code>.</p>
@@ -160,7 +161,7 @@
       </div>
     </form>
 
-    <div style="margin-top:18px;color:rgba(159,180,216,0.6);font-size:13px">Tip: On the server, treat <code>categories</code> and <code>documents</code> as lists. For Flask, use <code>request.files.getlist('documents')</code> and <code>request.form.getlist('categories')</code>.</div>
+    <div style="margin-top:18px;color:rgba(159,180,216,0.6);font-size:13px">Tip: On the server, <code>categories</code> and <code>documents</code> are treated as lists. In Flask, we are using <code>request.files.getlist('documents')</code> and <code>request.form.getlist('categories')</code>.</div>
 
   </div>
 
