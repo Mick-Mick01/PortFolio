@@ -4,7 +4,7 @@ import pymongo
 from . import dashboard_bp
 from bson import Binary
 import gridfs #To store DOCs and give users for download through Return send_files()
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import os
 
 # load_dotenv()

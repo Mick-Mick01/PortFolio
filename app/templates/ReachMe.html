@@ -307,6 +307,8 @@
           body: new FormData(form)  // Built-in class provided by the browser
         });
 
+        await wait(1200);
+
         form.reset();
         modal.showModal();
 

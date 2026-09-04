@@ -5,7 +5,7 @@ import smtplib
 from email.mime.text import MIMEText
 import gridfs
 from io import BytesIO  #For Return send_file()
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 import os
 from threading import Thread
 
